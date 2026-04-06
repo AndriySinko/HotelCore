@@ -1,0 +1,53 @@
+namespace HotelCore.Application.Users.Commands.CreateUser;
+
+using MediatR;
+using HotelCore.Application.Common.Interfaces;
+using HotelCore.Application.Identity;
+using HotelCore.Application.Identity.DTOs;
+using HotelCore.Application.Users;
+using DTOs;
+using Microsoft.Extensions.Logging;
+
+public class CreateUserCommandHandler(
+    IIdentityService identityService,
+    ILogger<CreateUserCommandHandler> logger)
+    : IRequestHandler<CreateUserCommand, UserDto>
+{
+    public async Task<UserDto> Handle(
+        CreateUserCommand request, 
+        CancellationToken cancellationToken = default)
+    {
+        logger.LogInformation("Starting the process of creating a new user with email: {Email}", request.Email);
+        
+        var email = request.Email.Trim().ToLowerInvariant();
+        var phone = request.PhoneNumber.Trim();
+
+        var createUserDto = new CreateUserDto(
+            email,
+            request.Password,
+            request.Role,
+            request.FirstName?.Trim(),
+            request.LastName?.Trim(),
+            phone
+        );
+
+        var result = await identityService.CreateUserAsync(createUserDto);
+
+        if (!result.Succeeded)
+        {
+            logger.LogError("Failed to create user: {Error}", result.Error);
+            throw new InvalidOperationException($"Failed to create user: {result.Error}");
+        }
+
+        return new UserDto(
+            Id: Guid.Parse(result.UserId!),
+            Email: email,
+            PhoneNumber: phone,
+            FirstName: createUserDto.FirstName,
+            LastName: createUserDto.LastName,
+            Role: request.Role,
+            IsEmailVerified: false,
+            IsPhoneVerified: false
+        );
+    }
+}
