@@ -19,8 +19,19 @@
       <PackageReference Include="FluentValidation" Version="12.1.1" />
       <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="12.1.1" />
       <PackageReference Include="MediatR" Version="12.2.0" />
-      <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="10.0.3" />
-      <PackageReference Include="Microsoft.Extensions.Options" Version="10.0.3" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Compile Remove="Categories\**\*.cs" />
+      <Compile Remove="Communication\**\*.cs" />
+      <Compile Remove="MasterServices\**\*.cs" />
+      <Compile Remove="MastersProjects\**\*.cs" />
+      <Compile Remove="Orders\**\*.cs" />
+      <Compile Remove="Common\Authorization\**\*.cs" />
+      <Compile Remove="Common\Interfaces\Categories\**\*.cs" />
+      <Compile Remove="Common\Interfaces\Orders\**\*.cs" />
+      <Compile Remove="Common\Interfaces\WorkRequests\**\*.cs" />
+      <Compile Remove="Common\Interfaces\WorkersPortfolio\**\*.cs" />
     </ItemGroup>
 
 </Project>

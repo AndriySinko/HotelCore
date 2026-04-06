@@ -12,10 +12,6 @@ public class MyImage
     public required int Width { get; init; }
     public required int Height { get; init; }
     public required long SizeBytes { get; init; }
-    public required ImageSizeType Type { get; init; }
 
     public double AspectRatio { get; init; } = 1;
-
-    public Guid ImageGroupId { get; init; }
-    public MyImageGroup ImageGroup { get; set; } = null!;
 }

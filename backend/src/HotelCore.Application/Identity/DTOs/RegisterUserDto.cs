@@ -7,5 +7,5 @@ public record RegisterUserDto(
     string Password, 
     string FirstName, 
     string LastName,
-    RegistrationRole Role
+    UserRole Role
 );

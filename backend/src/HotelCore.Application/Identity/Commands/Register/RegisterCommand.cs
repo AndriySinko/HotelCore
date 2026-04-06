@@ -9,5 +9,5 @@ public record RegisterCommand(
     string Password,
     string FirstName,
     string LastName,
-    RegistrationRole Role
+    UserRole Role
 ) : IRequest<AuthenticationResult>;

@@ -1,11 +1,7 @@
 using System.Reflection;
 using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
-using HotelCore.Application.Common.Authorization;
 using HotelCore.Application.Common.Behaviors;
-using HotelCore.Application.Common.Interfaces.Orders;
-using HotelCore.Application.EmailVerification.Interfaces;
-using HotelCore.Application.EmailVerification.Services;
 
 namespace HotelCore.Application;
 
@@ -22,8 +18,6 @@ public static class DependencyInjection
         });
 
         services.AddValidatorsFromAssembly(assembly);
-        services.AddSingleton<IVerificationCodeGenerator, VerificationCodeGenerator>();
-        services.AddSingleton<IOrderAccessPolicy, OrderAccessPolicy>();
 
         return services;
     }

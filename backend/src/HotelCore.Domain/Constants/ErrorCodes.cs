@@ -10,13 +10,6 @@ public static class ErrorCodes
     public const string InternalError = "INTERNAL_ERROR";
     public const string ValidationError = "VALIDATION_ERROR";
     
-    public static class Category
-    {
-        public const string HasChildren = "CATEGORY_HAS_CHILDREN";
-        public const string InvalidSlug = "CATEGORY_INVALID_SLUG";
-        public const string DuplicateSlug = "CATEGORY_DUPLICATE_SLUG";
-    }
-    
     public static class User
     {
         public const string EmailInUse = "EMAIL_IN_USE";

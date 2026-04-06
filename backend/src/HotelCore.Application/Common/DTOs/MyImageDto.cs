@@ -11,5 +11,4 @@ public record MyImageDto(
     int Width,
     int Height,
     long SizeBytes,
-    double AspectRatio,
-    ImageSizeType SizeType);
+    double AspectRatio);

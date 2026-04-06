@@ -26,4 +26,8 @@
       <ProjectReference Include="..\HotelCore.Application\HotelCore.Application.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Compile Remove="Caching/**/*.cs" />
+    </ItemGroup>
+
 </Project>

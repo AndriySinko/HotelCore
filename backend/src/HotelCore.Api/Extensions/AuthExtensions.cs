@@ -21,31 +21,11 @@ public static class AuthExtensions
             })
             .AddCookie(IdentityConstants.ExternalScheme, options =>
             {
-                options.Cookie.Name = "Workers.External";
+                options.Cookie.Name = "HotelCore.External";
                 options.Cookie.HttpOnly = true;
                 options.Cookie.SameSite = SameSiteMode.Lax;
                 options.Cookie.SecurePolicy = CookieSecurePolicy.SameAsRequest;
                 options.ExpireTimeSpan = TimeSpan.FromMinutes(15);
-            })
-            .AddGoogle(options =>
-            {
-                options.ClientId = configuration["GoogleAuth:ClientId"] ?? "google-client-id";
-                options.ClientSecret = configuration["GoogleAuth:ClientSecret"] ?? "google-client-secret";
-                options.SignInScheme = IdentityConstants.ExternalScheme;
-                
-                options.SaveTokens = true;
-                
-                options.Events.OnRemoteFailure = context =>
-                {
-                    var logger = context.HttpContext.RequestServices
-                        .GetRequiredService<ILoggerFactory>()
-                        .CreateLogger("GoogleAuth");
-                    
-                    logger.LogError("Google Auth Remote Failure: {Error}", context.Failure?.Message);
-                    context.Response.Redirect("/login?error=remote_failure");
-                    context.HandleResponse();
-                    return Task.CompletedTask;
-                };
             })
             .AddJwtBearer(options =>
             {

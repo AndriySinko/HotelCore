@@ -1,6 +1,3 @@
-using HotelCore.Application.Common.Interfaces;
-using HotelCore.Application.Common.Interfaces.WorkRequests;
-using HotelCore.Domain.Entities.Orders;
 using HotelCore.Infrastructure.Persistence;
 
 namespace HotelCore.Infrastructure.Repositories;

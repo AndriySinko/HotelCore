@@ -15,7 +15,7 @@ public static class OpenApiExtensions
             {
                 document.Info = new OpenApiInfo
                 {
-                    Title = "Workers API",
+                    Title = "HotelCore API",
                     Version = "v1"
                 };
 
@@ -33,7 +33,7 @@ public static class OpenApiExtensions
             app.MapOpenApi();
             app.MapScalarApiReference(options =>
             {
-                options.Title = "Workers API Reference";
+                options.Title = "HotelCore API Reference";
                 options.Theme = ScalarTheme.Mars;
             });
             app.MapGet("/", () => Results.Redirect("/scalar"));
