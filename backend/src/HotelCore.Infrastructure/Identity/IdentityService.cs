@@ -1,0 +1,139 @@
+// This file contains code for IdentityService.
+using Microsoft.AspNetCore.Identity;
+using HotelCore.Application.Common.Models;
+using HotelCore.Application.Identity;
+using HotelCore.Application.Identity.DTOs;
+using HotelCore.Domain.Entities.Users;
+using HotelCore.Domain.Enums;
+
+namespace HotelCore.Infrastructure.Identity;
+
+public class IdentityService(
+    UserManager<User> userManager,
+    RoleManager<IdentityRole<Guid>> roleManager,
+    ITokenService tokenService) : IIdentityService
+{
+    public async Task<AuthenticationResult> RegisterAsync(RegisterUserDto dto)
+    {
+        var systemRole = dto.Role;
+
+        var roleName = systemRole.ToString();
+        
+        var user = new User
+        {
+            Email = dto.Email,
+            UserName = dto.Email,
+            Role = systemRole
+        };
+
+        var result = await userManager.CreateAsync(user, dto.Password);
+        
+        if (!result.Succeeded)
+        {
+            return AuthenticationResult.Failure(string.Join(", ", result.Errors.Select(e => e.Description)));
+        }
+
+        if (!await roleManager.RoleExistsAsync(roleName))
+        {
+            await roleManager.CreateAsync(new IdentityRole<Guid>(roleName));
+        }
+
+        await userManager.AddToRoleAsync(user, roleName);
+        
+        return await GenerateAuthResultAsync(user);
+    }
+
+    public async Task<AuthenticationResult> LoginAsync(LoginUserDto dto, CancellationToken cancellationToken = default)
+    {
+        var user = await userManager.FindByEmailAsync(dto.Email);
+        
+        if (user == null)
+        {
+            return AuthenticationResult.Failure("Invalid email or password.");
+        }
+
+        if (!await userManager.CheckPasswordAsync(user, dto.Password))
+        {
+            return AuthenticationResult.Failure("Invalid email or password.");
+        }
+        
+        return await GenerateAuthResultAsync(user, cancellationToken);
+    }
+
+    public async Task<AuthenticationResult> SwitchRoleAsync(Guid userId, UserRole targetRole, CancellationToken cancellationToken = default)
+    {
+        var user = await userManager.FindByIdAsync(userId.ToString());
+        
+        if (user == null)
+        {
+            return AuthenticationResult.Failure("User not found");
+        }
+
+        if (targetRole == UserRole.Guest)
+        {
+            return AuthenticationResult.Failure("Invalid role switch request");
+        }
+
+        user.Role = targetRole;
+        var updateResult = await userManager.UpdateAsync(user);
+        if (!updateResult.Succeeded)
+        {
+            return AuthenticationResult.Failure("Failed to update user role");
+        }
+
+        
+        var currentRoles = await userManager.GetRolesAsync(user);
+        await userManager.RemoveFromRolesAsync(user, currentRoles);
+
+        var targetRoleName = targetRole.ToString();
+        if (!await roleManager.RoleExistsAsync(targetRoleName))
+        {
+            await roleManager.CreateAsync(new IdentityRole<Guid>(targetRoleName));
+        }
+        
+        await userManager.AddToRoleAsync(user, targetRoleName);
+
+        
+        return await GenerateAuthResultAsync(user, cancellationToken);
+    }
+
+    private async Task<AuthenticationResult> GenerateAuthResultAsync(User user, CancellationToken cancellationToken = default)
+    {
+        var roles = await userManager.GetRolesAsync(user);
+
+        if (roles.Count == 0)
+        {
+            var roleName = user.Role.ToString();
+
+            if (!string.Equals(roleName, UserRole.Guest.ToString(), StringComparison.Ordinal))
+            {
+                if (!await roleManager.RoleExistsAsync(roleName))
+                {
+                    await roleManager.CreateAsync(new IdentityRole<Guid>(roleName));
+                }
+
+                var addToRoleResult = await userManager.AddToRoleAsync(user, roleName);
+                if (addToRoleResult.Succeeded)
+                {
+                    roles = await userManager.GetRolesAsync(user);
+                }
+                else
+                {
+                    roles = new List<string> { roleName };
+                }
+            }
+        }
+
+        var role = roles.FirstOrDefault() ?? user.Role.ToString();
+
+        var token = tokenService.GenerateToken(user, roles);
+
+        var userName = user.UserName ?? user.Email ?? "Unknown";
+
+        return AuthenticationResult.Success(
+            token, 
+            user.Id.ToString(), 
+            userName, 
+            role);
+    }
+}
