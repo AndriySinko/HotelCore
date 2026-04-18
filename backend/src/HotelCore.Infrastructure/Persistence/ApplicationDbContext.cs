@@ -5,6 +5,7 @@ using HotelCore.Application.Common.Interfaces;
 using HotelCore.Domain.Common;
 using HotelCore.Domain.Entities.Images;
 using HotelCore.Domain.Entities.Users;
+using HotelCore.Domain.Entities.Users.Restaurant;
 
 namespace HotelCore.Infrastructure.Persistence;
 
@@ -16,6 +17,12 @@ public class ApplicationDbContext : IdentityDbContext<User, IdentityRole<Guid>, 
     }
 
     public DbSet<Guest> Guests => Set<Guest>();
+    public DbSet<MyImage> Images => Set<MyImage>();
+    public DbSet<ProductCategory> ProductCategories => Set<ProductCategory>();
+    public DbSet<Product> Products => Set<Product>();
+    public DbSet<Order> Orders => Set<Order>();
+    public DbSet<OrderItem> OrderItems => Set<OrderItem>();
+    public DbSet<Payment> Payments => Set<Payment>();
 
     public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
     {

@@ -1,17 +1,18 @@
-﻿using HotelCore.Domain.Enums;
+﻿using HotelCore.Domain.Common;
+using HotelCore.Domain.Entities.Users.Restaurant;
 
 namespace HotelCore.Domain.Entities.Images;
 
-public class MyImage
+public class MyImage : BaseEntity
 {
-    public Guid Id { get; init; } = Guid.NewGuid();
+    public required string StorageKey { get; set; }
+    public required string Url { get; set; }
 
-    public required string StorageKey { get; init; }
-    public required string Url { get; init; }
+    public required int Width { get; set; }
+    public required int Height { get; set; }
+    public required long SizeBytes { get; set; }
 
-    public required int Width { get; init; }
-    public required int Height { get; init; }
-    public required long SizeBytes { get; init; }
+    public double AspectRatio { get; set; } = 1;
 
-    public double AspectRatio { get; init; } = 1;
+    public Product? Product { get; set; }
 }
