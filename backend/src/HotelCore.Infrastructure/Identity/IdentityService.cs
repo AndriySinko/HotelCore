@@ -4,14 +4,19 @@ using HotelCore.Application.Identity;
 using HotelCore.Application.Identity.DTOs;
 using HotelCore.Domain.Entities.Users;
 using HotelCore.Domain.Enums;
+using Microsoft.Extensions.Logging;
 
 namespace HotelCore.Infrastructure.Identity;
 
 public class IdentityService(
     UserManager<User> userManager,
     RoleManager<IdentityRole<Guid>> roleManager,
-    ITokenService tokenService) : IIdentityService
+    ITokenService tokenService,
+    ILogger<IdentityService> logger) : IIdentityService
 {
+    private const string DemoGuestEmail = "demo@hotelcore.local";
+    private const string DemoGuestPassword = "Demo@12345!";
+
     public async Task<AuthenticationResult> RegisterAsync(RegisterUserDto dto)
     {
         var systemRole = dto.Role;
@@ -94,6 +99,44 @@ public class IdentityService(
 
         // Generate new token reflecting new role
         return await GenerateAuthResultAsync(user, cancellationToken);
+    }
+
+    public async Task<QrLoginResult> QrLoginAsync(string qrToken, CancellationToken cancellationToken = default)
+    {
+        if (string.IsNullOrWhiteSpace(qrToken))
+            return QrLoginResult.Failure("Invalid QR code.");
+
+        var user = await userManager.FindByEmailAsync(DemoGuestEmail);
+
+        if (user is null)
+        {
+            var guest = new Guest
+            {
+                Email = DemoGuestEmail,
+                UserName = DemoGuestEmail,
+                FirstName = "George",
+                LastName = "Sladkovsky",
+                RoomNumber = "404",
+                Role = UserRole.Guest,
+            };
+
+            var createResult = await userManager.CreateAsync(guest, DemoGuestPassword);
+            if (!createResult.Succeeded)
+            {
+                logger.LogError("Failed to seed demo guest: {Errors}", string.Join(", ", createResult.Errors.Select(e => e.Description)));
+                return QrLoginResult.Failure("Could not provision demo guest.");
+            }
+
+            user = guest;
+        }
+
+        var token = tokenService.GenerateToken(user, [UserRole.Guest.ToString()]);
+        var guest2 = user as Guest;
+        var name = guest2 is not null
+            ? $"{guest2.FirstName} {guest2.LastName}"
+            : user.UserName ?? DemoGuestEmail;
+
+        return QrLoginResult.Success(token, user.Id.ToString(), name, guest2?.RoomNumber);
     }
 
     private async Task<AuthenticationResult> GenerateAuthResultAsync(User user, CancellationToken cancellationToken = default)
