@@ -9,8 +9,10 @@ namespace HotelCore.Domain.Entities.Users.Restaurant
         public required string Description { get; set; }
         public required decimal Price { get; set; }
 
-        public MyImage Image { get; set; }
-        public Guid ImageId { get; set; }
+        public bool IsAvailable { get; set; } = true;
+
+        public MyImage? Image { get; set; }
+        public Guid? ImageId { get; set; }
 
         public ProductCategory Category { get; set; } = null!;
         public Guid ProductCategoryId { get; set; }

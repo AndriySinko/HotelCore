@@ -19,5 +19,8 @@ public class OrderConfiguration : IEntityTypeConfiguration<Order>
             .WithOne(x => x.Order)
             .HasForeignKey<Payment>(x => x.OrderId)
             .OnDelete(DeleteBehavior.Cascade);
+
+        builder.Property(x => x.GuestId)
+            .IsRequired(false);
     }
 }

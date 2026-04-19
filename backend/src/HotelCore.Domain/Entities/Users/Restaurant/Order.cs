@@ -11,5 +11,6 @@ namespace HotelCore.Domain.Entities.Users.Restaurant
         public ICollection<OrderItem> OrderItems { get; set; } = new List<OrderItem>();
         public required OrderStatus Status { get; set; }
         public Payment? Payment { get; set; }
+        public Guid? GuestId { get; set; }
     }
 }

@@ -21,9 +21,13 @@ public class ProductConfiguration : IEntityTypeConfiguration<Product>
         builder.Property(x => x.Price)
             .HasPrecision(18, 2);
 
+        builder.Property(x => x.IsAvailable)
+            .HasDefaultValue(true);
+
         builder.HasOne(x => x.Image)
             .WithOne(x => x.Product)
             .HasForeignKey<Product>(x => x.ImageId)
+            .IsRequired(false)
             .OnDelete(DeleteBehavior.Restrict);
 
         builder.HasIndex(x => x.ImageId)
