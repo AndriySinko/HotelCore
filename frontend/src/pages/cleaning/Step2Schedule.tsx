@@ -1,19 +1,59 @@
+import { useMutation, useQuery } from '@tanstack/react-query';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { createCleaning, getReservation, getTimeSlots } from '../../api';
 import AppShell from '../../components/AppShell';
 import Stepper from '../../components/Stepper';
 import { Button, Card, Input, RadioCard, ReservationInfo } from '../../components/UI';
 import useWizardStore from '../../store/wizardStore';
 
-const timeSlots = ['09:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00'];
-
 export default function Step2Schedule() {
   const navigate = useNavigate();
+  const [showValidation, setShowValidation] = useState(false);
+  const selectedRooms = useWizardStore((state) => state.selectedRooms);
   const cleaningMode = useWizardStore((state) => state.cleaningMode);
   const scheduledDate = useWizardStore((state) => state.scheduledDate);
   const scheduledTime = useWizardStore((state) => state.scheduledTime);
   const setCleaningMode = useWizardStore((state) => state.setCleaningMode);
   const setScheduledDate = useWizardStore((state) => state.setScheduledDate);
   const setScheduledTime = useWizardStore((state) => state.setScheduledTime);
+
+  const { data: reservation, isLoading: isReservationLoading } = useQuery({
+    queryKey: ['reservation'],
+    queryFn: getReservation,
+  });
+
+  const { data: timeSlots = [], isLoading: isTimeSlotsLoading } = useQuery({
+    queryKey: ['time-slots', scheduledDate ?? ''],
+    queryFn: () => getTimeSlots(scheduledDate ?? ''),
+    enabled: cleaningMode === 'scheduled' && Boolean(scheduledDate),
+  });
+
+  const createCleaningMutation = useMutation({
+    mutationFn: createCleaning,
+  });
+
+  const dateMissing = cleaningMode === 'scheduled' && !scheduledDate;
+  const timeMissing = cleaningMode === 'scheduled' && !scheduledTime;
+  const canContinue = !dateMissing && !timeMissing;
+
+  const handleContinue = async () => {
+    setShowValidation(true);
+
+    if (!canContinue) {
+      return;
+    }
+
+    await createCleaningMutation.mutateAsync({
+      confirmation: reservation?.confirmation ?? 'RES492',
+      selectedRooms,
+      cleaningMode,
+      scheduledDate,
+      scheduledTime,
+    });
+
+    navigate('/cleaning/step/3');
+  };
 
   return (
     <AppShell>
@@ -32,13 +72,17 @@ export default function Step2Schedule() {
           </div>
 
           <div className="space-y-6">
-            <ReservationInfo
-              guestName="John Smith"
-              roomType="Deluxe Double"
-              roomNumber="305"
-              confirmation="RES492"
-              checkOut="2026-03-25"
-            />
+            <div className={isReservationLoading ? 'animate-pulse' : ''}>
+              <ReservationInfo
+                guestName={reservation?.guestName ?? 'Loading...'}
+                roomType={reservation?.roomType ?? '--'}
+                roomNumber={reservation?.roomNumber ?? '--'}
+                confirmation={reservation?.confirmation ?? '--'}
+                checkOut={reservation?.checkOut ?? '--'}
+              />
+            </div>
+
+            {isReservationLoading ? <p className="text-sm text-slate-500">Loading reservation details...</p> : null}
 
             <div className="grid gap-3 lg:grid-cols-2">
               <button type="button" className="h-full text-left" onClick={() => setCleaningMode('immediate')}>
@@ -71,11 +115,23 @@ export default function Step2Schedule() {
                 <p className="mt-2 text-sm text-slate-500">Please select date and time for scheduled cleaning.</p>
                 <div className="mt-5 grid gap-6 lg:grid-cols-2">
                   <div>
-                    <label className="mb-3 block text-sm font-medium text-slate-700">Date</label>
-                    <Input value={scheduledDate ?? ''} placeholder="YYYY-MM-DD" onChange={(event) => setScheduledDate(event.target.value || null)} />
+                    <label className="mb-2 block text-sm font-medium text-slate-700">
+                      Date <span className="text-red-500">*</span>
+                    </label>
+                    <Input
+                      value={scheduledDate ?? ''}
+                      placeholder="YYYY-MM-DD"
+                      className={showValidation && dateMissing ? 'border-red-300' : ''}
+                      onChange={(event) => setScheduledDate(event.target.value || null)}
+                    />
+                    {showValidation && dateMissing ? <p className="mt-2 text-xs text-red-600">Date is required for scheduled cleaning.</p> : null}
                   </div>
                   <div>
-                    <label className="mb-3 block text-sm font-medium text-slate-700">Time Slot</label>
+                    <label className="mb-2 block text-sm font-medium text-slate-700">
+                      Time Slot <span className="text-red-500">*</span>
+                    </label>
+                    {!scheduledDate ? <p className="mb-2 text-xs text-slate-500">Select a date to load available time slots.</p> : null}
+                    {isTimeSlotsLoading ? <p className="mb-2 text-xs text-slate-500">Loading time slots...</p> : null}
                     <div className="grid grid-cols-3 gap-2">
                       {timeSlots.map((slot) => {
                         const isSelected = scheduledTime === slot;
@@ -91,6 +147,7 @@ export default function Step2Schedule() {
                         );
                       })}
                     </div>
+                    {showValidation && timeMissing ? <p className="mt-2 text-xs text-red-600">Time slot is required for scheduled cleaning.</p> : null}
                   </div>
                 </div>
               </Card>
@@ -102,8 +159,8 @@ export default function Step2Schedule() {
           <Button variant="secondary" className="sm:w-24" onClick={() => navigate('/cleaning/step/1')}>
             Back
           </Button>
-          <Button className="flex-1" onClick={() => navigate('/cleaning/step/3')}>
-            Continue to Payment
+          <Button className="flex-1" onClick={handleContinue} disabled={createCleaningMutation.isPending}>
+            {createCleaningMutation.isPending ? 'Saving...' : 'Continue to Payment'}
           </Button>
         </div>
       </div>

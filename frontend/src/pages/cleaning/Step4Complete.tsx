@@ -1,4 +1,6 @@
+import { useQuery } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
+import { getReservation } from '../../api';
 import AppShell from '../../components/AppShell';
 import Stepper from '../../components/Stepper';
 import { Button, Card } from '../../components/UI';
@@ -6,7 +8,12 @@ import useWizardStore from '../../store/wizardStore';
 
 export default function Step4Complete() {
   const navigate = useNavigate();
+  const cleaningMode = useWizardStore((state) => state.cleaningMode);
   const reset = useWizardStore((state) => state.reset);
+  const { data: reservation, isLoading } = useQuery({
+    queryKey: ['reservation'],
+    queryFn: getReservation,
+  });
 
   const handleRestart = () => {
     reset();
@@ -35,15 +42,19 @@ export default function Step4Complete() {
 
             <Card className="p-6">
               <h3 className="text-base font-medium text-slate-900">Summary</h3>
+              {isLoading ? <p className="mt-3 text-sm text-slate-500">Loading reservation details...</p> : null}
               <div className="mt-4 grid gap-3 text-sm text-slate-700 sm:grid-cols-2">
                 <div>
-                  <span className="font-medium text-slate-900">Guest: </span>John Smith
+                  <span className="font-medium text-slate-900">Guest: </span>
+                  {reservation?.guestName ?? '--'}
                 </div>
                 <div>
-                  <span className="font-medium text-slate-900">Room: </span>305
+                  <span className="font-medium text-slate-900">Room: </span>
+                  {reservation?.roomNumber ?? '--'}
                 </div>
                 <div>
-                  <span className="font-medium text-slate-900">Cleaning Mode: </span>Scheduled
+                  <span className="font-medium text-slate-900">Cleaning Mode: </span>
+                  {cleaningMode === 'scheduled' ? 'Scheduled' : 'Immediate'}
                 </div>
                 <div>
                   <span className="font-medium text-slate-900">Amount Due: </span>$35.00

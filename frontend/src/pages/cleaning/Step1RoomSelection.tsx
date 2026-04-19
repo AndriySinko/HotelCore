@@ -1,26 +1,40 @@
+import { useQuery } from '@tanstack/react-query';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { getReservation } from '../../api';
 import AppShell from '../../components/AppShell';
 import Stepper from '../../components/Stepper';
 import { Button, Card, ReservationInfo } from '../../components/UI';
 import useWizardStore from '../../store/wizardStore';
 
-const rooms = [
-  { room: 'Room 101', type: 'Single', checkOut: '2026-03-30', selected: false },
-  { room: 'Room 102', type: 'Double', checkOut: '2026-03-28', selected: false, badge: 'Active Request', muted: true },
-  { room: 'Room 203', type: 'Suite', checkOut: '2026-03-29', selected: false },
-  { room: 'Room 305', type: 'Deluxe', checkOut: '2026-04-02', selected: true },
-];
-
 export default function Step1RoomSelection() {
   const navigate = useNavigate();
+  const [showValidation, setShowValidation] = useState(false);
   const selectedRooms = useWizardStore((state) => state.selectedRooms);
   const setSelectedRooms = useWizardStore((state) => state.setSelectedRooms);
+
+  const { data: reservation, isLoading } = useQuery({
+    queryKey: ['reservation'],
+    queryFn: getReservation,
+  });
 
   const toggleRoom = (room: string) => {
     setSelectedRooms(
       selectedRooms.includes(room) ? selectedRooms.filter((selectedRoom) => selectedRoom !== room) : [...selectedRooms, room],
     );
   };
+
+  const handleContinue = () => {
+    setShowValidation(true);
+
+    if (selectedRooms.length === 0) {
+      return;
+    }
+
+    navigate('/cleaning/step/2');
+  };
+
+  const rooms = reservation?.rooms ?? [];
 
   return (
     <AppShell>
@@ -40,12 +54,14 @@ export default function Step1RoomSelection() {
 
           <div className="space-y-5">
             <ReservationInfo
-              guestName="John Smith"
-              roomType="Suite"
-              roomNumber="305"
-              confirmation="RES492"
-              checkOut="2026-04-02"
+              guestName={reservation?.guestName ?? 'Loading...'}
+              roomType={reservation?.roomType ?? '--'}
+              roomNumber={reservation?.roomNumber ?? '--'}
+              confirmation={reservation?.confirmation ?? '--'}
+              checkOut={reservation?.checkOut ?? '--'}
             />
+
+            {isLoading ? <p className="text-sm text-slate-500">Loading available rooms...</p> : null}
 
             <div className="space-y-4">
               {rooms.map((room) => {
@@ -81,6 +97,10 @@ export default function Step1RoomSelection() {
               })}
             </div>
 
+            {showValidation && selectedRooms.length === 0 ? (
+              <p className="text-sm text-red-600">Select at least one room to continue.</p>
+            ) : null}
+
             <a href="#" className="inline-block text-sm font-medium text-slate-700 underline underline-offset-4">
               View Alternative Rooms
             </a>
@@ -91,7 +111,7 @@ export default function Step1RoomSelection() {
           <Button variant="secondary" className="sm:w-24" onClick={() => navigate(-1)}>
             Back
           </Button>
-          <Button className="flex-1" onClick={() => navigate('/cleaning/step/2')}>
+          <Button className="flex-1" onClick={handleContinue}>
             ◎ Confirm Room Assignment
           </Button>
         </div>
