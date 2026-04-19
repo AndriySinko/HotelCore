@@ -18,6 +18,19 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HotelCore.ServiceDefaults",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HotelCore.Domain", "backend\src\HotelCore.Domain\HotelCore.Domain.csproj", "{1150733F-93C1-D9BF-F962-E5014087F671}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{ADA948A8-2DC4-4D47-95DE-EB5B9428CA1E}"
+	ProjectSection(SolutionItems) = preProject
+		frontend_plan.md = frontend_plan.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UI Pages Images", "UI Pages Images", "{705986FF-7B09-4122-AD61-ACEE3F0F2D70}"
+	ProjectSection(SolutionItems) = preProject
+		..\..\..\OneDrive\Desktop\PSI\Assignment\UI\1.png = ..\..\..\OneDrive\Desktop\PSI\Assignment\UI\1.png
+		..\..\..\OneDrive\Desktop\PSI\Assignment\UI\2.png = ..\..\..\OneDrive\Desktop\PSI\Assignment\UI\2.png
+		..\..\..\OneDrive\Desktop\PSI\Assignment\UI\3.png = ..\..\..\OneDrive\Desktop\PSI\Assignment\UI\3.png
+		..\..\..\OneDrive\Desktop\PSI\Assignment\UI\4.png = ..\..\..\OneDrive\Desktop\PSI\Assignment\UI\4.png
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -111,5 +124,9 @@ Global
 		{7BC1EA54-919C-5875-E86D-C83F0E63CD6C} = {CCF556F0-B8C3-493D-B73C-CB4E61B092EF}
 		{7E04A89C-AA5A-F56F-18EF-25CC1F878B72} = {BED14A6E-1234-5678-9ABC-DEF012345678}
 		{1150733F-93C1-D9BF-F962-E5014087F671} = {CCF556F0-B8C3-493D-B73C-CB4E61B092EF}
+		{705986FF-7B09-4122-AD61-ACEE3F0F2D70} = {ADA948A8-2DC4-4D47-95DE-EB5B9428CA1E}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B4B1D3C0-4A63-49B2-8C1C-CABA09AFBFDF}
 	EndGlobalSection
 EndGlobal
