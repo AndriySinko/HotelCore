@@ -9,7 +9,7 @@ using HotelCore.Domain.Entities.Users.Restaurant;
 
 namespace HotelCore.Infrastructure.Persistence;
 
-public class ApplicationDbContext : IdentityDbContext<User, IdentityRole<Guid>, Guid>, IUnitOfWork
+public class ApplicationDbContext : IdentityDbContext<User, IdentityRole<Guid>, Guid>, IUnitOfWork, IApplicationDbContext
 {
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
         : base(options)
