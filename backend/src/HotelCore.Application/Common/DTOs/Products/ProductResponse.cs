@@ -1,10 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+namespace HotelCore.Application.Common.DTOs.Products;
 
-namespace HotelCore.Application.Common.DTOs.Products
-{
-    internal class ProductResponse
-    {
-    }
-}
+public record ProductResponse(
+    Guid Id,
+    string Name,
+    string Description,
+    decimal Price,
+    bool IsAvailable,
+    string? ImageUrl,
+    Guid CategoryId,
+    string CategoryName);

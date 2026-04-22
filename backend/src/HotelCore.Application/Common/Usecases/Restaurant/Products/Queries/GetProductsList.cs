@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+using MediatR;
+using HotelCore.Application.Common.DTOs.Products;
 
-namespace HotelCore.Application.Common.Usecases.Restaurant.Products.Queries
-{
-    internal class GetProductsList
-    {
-    }
-}
+namespace HotelCore.Application.Common.Usecases.Restaurant.Products.Queries;
+
+public record GetProductsListQuery(Guid? CategoryId) : IRequest<List<ProductResponse>>;

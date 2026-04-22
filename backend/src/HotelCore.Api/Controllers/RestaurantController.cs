@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using HotelCore.Api.Models;
 using HotelCore.Application.Common.Usecases.Restaurant.Auth.Commands;
 using HotelCore.Application.Common.Usecases.Restaurant.Categories.Queries;
+using HotelCore.Application.Common.Usecases.Restaurant.Products.Queries;
 
 namespace HotelCore.Api.Controllers;
 
@@ -30,6 +31,16 @@ public class RestaurantController(IMediator mediator) : ControllerBase
     public async Task<IActionResult> GetCategories(CancellationToken cancellationToken = default)
     {
         var result = await mediator.Send(new GetAllCategoriesQuery(), cancellationToken);
+        return Ok(ApiResult.Success(result));
+    }
+
+    [HttpGet("products")]
+    [Authorize]
+    public async Task<IActionResult> GetProducts(
+        [FromQuery] Guid? categoryId,
+        CancellationToken cancellationToken = default)
+    {
+        var result = await mediator.Send(new GetProductsListQuery(categoryId), cancellationToken);
         return Ok(ApiResult.Success(result));
     }
 }
