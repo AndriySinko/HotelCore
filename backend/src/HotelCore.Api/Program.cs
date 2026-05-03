@@ -34,15 +34,15 @@ builder.Services.ConfigureAuthentication(builder.Configuration);
 // Register authorization handlers
 builder.Services.AddHttpContextAccessor();
 
-builder.Services.AddCors(options =>
-{
-    options.AddDefaultPolicy(policy =>
-    {
-        policy.AllowAnyOrigin()
-              .AllowAnyMethod()
-              .AllowAnyHeader();
-    });
-});
+//builder.Services.AddCors(options =>
+//{
+//    options.AddDefaultPolicy(policy =>
+//    {
+//        policy.AllowAnyOrigin()
+//              .AllowAnyMethod()
+//              .AllowAnyHeader();
+//    });
+//});
 
 var app = builder.Build();
 
@@ -52,9 +52,10 @@ app.MapDefaultEndpoints();
 app.UseOpenApi();
 
 app.UseExceptionHandler();
-app.UseHttpsRedirection();
+if (!app.Environment.IsDevelopment())
+    app.UseHttpsRedirection();
 
-app.UseCors();
+//app.UseCors();
 
 app.UseAuthentication();
 app.UseAuthorization();
@@ -71,5 +72,6 @@ if (app.Environment.IsDevelopment())
 
 // Seed Data
 await app.SeedRolesAsync();
+await app.SeedRestaurantDataAsync();
 
 app.Run();

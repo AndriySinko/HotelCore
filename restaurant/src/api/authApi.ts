@@ -10,8 +10,13 @@ export interface QrLoginResponse {
 
 export const authApi = {
   async loginWithQrCode(qrData: string): Promise<{ user: User; token: string }> {
+    console.log('Attempting QR code login with data:', qrData);
+    console.log('API client base URL:', apiClient.defaults.baseURL);
     const res = await apiClient.post<QrLoginResponse>('/restaurant/auth/qr', {
       qrToken: qrData,
+    }).catch((error) => {
+      console.error('QR login failed:', error);
+      throw error;
     });
     const data = res.data;
     return {
