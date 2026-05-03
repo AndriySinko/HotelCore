@@ -1,13 +1,10 @@
-// This file contains code for SeedingExtensions.
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using HotelCore.Domain.Entities.Images;
 using HotelCore.Domain.Entities.Reception;
 using HotelCore.Domain.Entities.Users;
-using Microsoft.EntityFrameworkCore;
-using HotelCore.Domain.Enums;
-using HotelCore.Infrastructure.Persistence;
-using HotelCore.Domain.Entities.Images;
 using HotelCore.Domain.Entities.Users.Restaurant;
+using HotelCore.Domain.Enums;
 using HotelCore.Infrastructure.Persistence;
 
 namespace HotelCore.Api.Extensions;

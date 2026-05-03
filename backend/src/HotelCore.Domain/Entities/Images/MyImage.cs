@@ -1,5 +1,5 @@
-// This file contains code for MyImage.
-using HotelCore.Domain.Enums;
+using HotelCore.Domain.Common;
+using HotelCore.Domain.Entities.Users.Restaurant;
 
 namespace HotelCore.Domain.Entities.Images;
 

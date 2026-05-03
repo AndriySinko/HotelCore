@@ -11,6 +11,7 @@ public class Guest : User
     public required string FirstName { get; set; }
     public required string LastName { get; set; }
     public string? Phone { get; set; }
+    public string? RoomNumber { get; set; }
     public string? IdType { get; private set; }
     public string? IdNumber { get; private set; }
     public DateTime? IdExpiry { get; private set; }
