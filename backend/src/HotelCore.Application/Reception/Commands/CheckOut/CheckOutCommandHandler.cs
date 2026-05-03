@@ -1,4 +1,3 @@
-// This file contains code for CheckOutCommandHandler.
 using MediatR;
 using HotelCore.Application.Common.Interfaces;
 using HotelCore.Application.Common.Interfaces.Reception;
@@ -37,6 +36,7 @@ public class CheckOutCommandHandler(
         await unitOfWork.SaveChangesAsync(ct);
 
         await reservationRepo.SetStatusAsync(reservation.Id, ReservationStatus.CheckedOut, ct);
+        // room goes to cleaning queue automatically on checkout
         await roomRepo.SetStatusAsync(room.Id, RoomStatus.UnderCleaning, ct);
 
         var guestName = reservation.Guest?.GetFullName() ?? "Guest";
