@@ -1,3 +1,4 @@
+// This file contains code for MasterProjectListDto.
 using HotelCore.Application.Common.DTOs;
 
 namespace HotelCore.Application.MastersProjects.DTOs;

@@ -1,3 +1,4 @@
+// This file contains code for User.
 using HotelCore.Domain.Common;
 using HotelCore.Domain.Enums;
 using Microsoft.AspNetCore.Identity;

@@ -1,3 +1,4 @@
+// This file contains code for ErrorCodes.
 namespace HotelCore.Domain.Constants;
 
 public static class ErrorCodes

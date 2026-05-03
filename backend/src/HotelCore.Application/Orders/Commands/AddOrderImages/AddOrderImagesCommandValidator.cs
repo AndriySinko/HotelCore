@@ -1,3 +1,4 @@
+// This file contains code for AddOrderImagesCommandValidator.
 using FluentValidation;
 using HotelCore.Application.Common.Images;
 

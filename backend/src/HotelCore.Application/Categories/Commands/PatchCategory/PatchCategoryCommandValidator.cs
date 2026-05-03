@@ -1,3 +1,4 @@
+// This file contains code for PatchCategoryCommandValidator.
 using System.Text.RegularExpressions;
 using FluentValidation;
 

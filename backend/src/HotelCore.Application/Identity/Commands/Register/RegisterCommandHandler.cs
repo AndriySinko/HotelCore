@@ -1,3 +1,4 @@
+// This file contains code for RegisterCommandHandler.
 using MediatR;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;

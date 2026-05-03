@@ -1,3 +1,4 @@
+// This file contains code for CreateSubOrderCommandValidator.
 using FluentValidation;
 
 namespace HotelCore.Application.Orders.Commands.CreateSubOrder;

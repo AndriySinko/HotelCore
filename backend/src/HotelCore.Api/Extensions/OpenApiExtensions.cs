@@ -1,3 +1,4 @@
+// This file contains code for OpenApiExtensions.
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.OpenApi;
 using Microsoft.OpenApi;

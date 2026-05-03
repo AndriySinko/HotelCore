@@ -1,4 +1,5 @@
-﻿using System;
+// This file contains code for 20260406231356_initial.
+using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -6,10 +7,10 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace HotelCore.Infrastructure.Migrations
 {
-    /// <inheritdoc />
+    
     public partial class initial : Migration
     {
-        /// <inheritdoc />
+        
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
@@ -203,7 +204,7 @@ namespace HotelCore.Infrastructure.Migrations
                 unique: true);
         }
 
-        /// <inheritdoc />
+        
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(

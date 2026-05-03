@@ -1,3 +1,4 @@
+// This file contains code for UpdateCategoryCommandValidator.
 using System.Text.RegularExpressions;
 using FluentValidation;
 

@@ -1,3 +1,4 @@
+// This file contains code for IBaseEntity.
 namespace HotelCore.Domain.Common;
 
 public interface IBaseEntity

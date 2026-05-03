@@ -1,3 +1,4 @@
+// This file contains code for IOrdersTemporaryAccessStore.
 namespace HotelCore.Application.Common.Interfaces.Orders;
 
 public interface IOrdersTemporaryAccessStore

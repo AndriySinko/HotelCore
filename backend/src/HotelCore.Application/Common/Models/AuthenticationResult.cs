@@ -1,3 +1,4 @@
+// This file contains code for AuthenticationResult.
 namespace HotelCore.Application.Common.Models;
 
 public record AuthenticationResult(

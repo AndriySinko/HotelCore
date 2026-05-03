@@ -1,3 +1,4 @@
+// This file contains code for RestoreCategoryCommandValidator.
 using FluentValidation;
 
 namespace HotelCore.Application.Categories.Commands.RestoreCategory;

@@ -1,3 +1,4 @@
+// This file contains code for IFileStorageService.
 namespace HotelCore.Application.Common.Interfaces.Storage;
 
 public interface IFileStorageService

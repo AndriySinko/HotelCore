@@ -1,3 +1,4 @@
+// This file contains code for GetMasterProjectByIdQuery.
 using MediatR;
 using HotelCore.Application.MastersProjects.DTOs;
 

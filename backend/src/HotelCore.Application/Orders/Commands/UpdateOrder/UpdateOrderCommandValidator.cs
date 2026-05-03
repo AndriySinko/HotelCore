@@ -1,3 +1,4 @@
+// This file contains code for UpdateOrderCommandValidator.
 using FluentValidation;
 
 namespace HotelCore.Application.Orders.Commands.UpdateOrder;

@@ -1,4 +1,5 @@
-﻿using System;
+// This file contains code for StorageLocation.
+using System;
 using System.Collections.Generic;
 using System.Text;
 

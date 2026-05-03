@@ -1,0 +1,28 @@
+// This file contains code for GetScheduleQueryHandler.
+using MediatR;
+using HotelCore.Application.Common.Interfaces.StaffManagement;
+
+namespace HotelCore.Application.StaffManagement.Queries.GetSchedule;
+
+public class GetScheduleQueryHandler(IWorkScheduleRepository scheduleRepo)
+    : IRequestHandler<GetScheduleQuery, ScheduleDto?>
+{
+    public async Task<ScheduleDto?> Handle(GetScheduleQuery query, CancellationToken ct)
+    {
+        var schedule = await scheduleRepo.GetByIdWithShiftsAsync(query.ScheduleId, ct);
+        if (schedule is null) return null;
+
+        return new ScheduleDto(
+            schedule.Id,
+            schedule.PeriodStart,
+            schedule.PeriodEnd,
+            schedule.Status.ToString(),
+            schedule.Shifts.Select(s => new ShiftDto(
+                s.Id, s.Date, s.StartTime, s.EndTime,
+                s.ShiftType.ToString(), s.RequiredRole, s.Status.ToString(),
+                s.StaffMemberId,
+                s.AssignedEmployee != null ? $"{s.AssignedEmployee.UserName}" : null
+            )).ToList()
+        );
+    }
+}

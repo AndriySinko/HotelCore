@@ -1,3 +1,4 @@
+// This file contains code for CreateServiceListingCommand.
 using MediatR;
 
 namespace HotelCore.Application.MasterServices.Commands.CreateServiceListing;

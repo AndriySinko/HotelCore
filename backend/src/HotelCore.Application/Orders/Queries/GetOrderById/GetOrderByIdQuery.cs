@@ -1,3 +1,4 @@
+// This file contains code for GetOrderByIdQuery.
 using MediatR;
 using HotelCore.Application.Orders.DTOs;
 

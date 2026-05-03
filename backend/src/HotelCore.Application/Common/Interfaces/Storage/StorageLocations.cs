@@ -1,3 +1,4 @@
+// This file contains code for StorageLocations.
 namespace HotelCore.Application.Common.Interfaces.Storage;
 
 public static class StorageLocations

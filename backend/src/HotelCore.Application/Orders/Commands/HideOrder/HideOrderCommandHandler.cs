@@ -1,3 +1,4 @@
+// This file contains code for HideOrderCommandHandler.
 using MediatR;
 using Microsoft.Extensions.Logging;
 using HotelCore.Application.Common.Helpers;
@@ -42,7 +43,7 @@ public class HideOrderCommandHandler(
             oldValue: false,
             newValue: true,
             changedByUserId: request.CurrentUserId,
-            changeDescription: "Order hidden" // TODO: change to dynamic language translations
+            changeDescription: "Order hidden" 
         );
 
         orderRepository.Update(order);

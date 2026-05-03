@@ -1,3 +1,4 @@
+// This file contains code for GetCategoryByIdHandler.
 using MediatR;
 using HotelCore.Application.Categories.DTOs;
 using HotelCore.Application.Categories.Queries.GetCategories;

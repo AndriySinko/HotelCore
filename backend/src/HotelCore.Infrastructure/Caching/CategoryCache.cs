@@ -1,3 +1,4 @@
+// This file contains code for CategoryCache.
 using System.Text.Json;
 using StackExchange.Redis;
 using HotelCore.Application.Categories.DTOs;

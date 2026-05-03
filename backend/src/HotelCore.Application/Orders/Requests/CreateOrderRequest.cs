@@ -1,4 +1,5 @@
-﻿using System;
+// This file contains code for CreateOrderRequest.
+using System;
 using System.Collections.Generic;
 using System.Text;
 using HotelCore.Domain.Enums;

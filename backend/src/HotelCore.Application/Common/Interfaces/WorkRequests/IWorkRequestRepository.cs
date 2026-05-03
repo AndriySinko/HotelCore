@@ -1,3 +1,4 @@
+// This file contains code for IWorkRequestRepository.
 using HotelCore.Application.Common.Models;
 using HotelCore.Application.Communication.WorkRequests.Models;
 using HotelCore.Domain.Entities.Communication;

@@ -1,3 +1,4 @@
+// This file contains code for DeleteCategoryCommandValidator.
 using FluentValidation;
 
 namespace HotelCore.Application.Categories.Commands.DeleteCagtegory;

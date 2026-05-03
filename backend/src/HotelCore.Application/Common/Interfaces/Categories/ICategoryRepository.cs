@@ -1,3 +1,4 @@
+// This file contains code for ICategoryRepository.
 using HotelCore.Application.Categories.DTOs;
 using HotelCore.Domain.Entities.Categories;
 

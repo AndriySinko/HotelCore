@@ -1,3 +1,4 @@
+// This file contains code for PageRequest.
 namespace HotelCore.Application.Common.Models;
 
 public record PageRequest

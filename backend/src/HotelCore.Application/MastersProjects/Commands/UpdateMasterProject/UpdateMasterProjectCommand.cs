@@ -1,3 +1,4 @@
+// This file contains code for UpdateMasterProjectCommand.
 using MediatR;
 using Microsoft.AspNetCore.Http;
 

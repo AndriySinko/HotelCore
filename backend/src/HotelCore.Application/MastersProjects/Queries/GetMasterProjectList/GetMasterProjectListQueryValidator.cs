@@ -1,3 +1,4 @@
+// This file contains code for GetMasterProjectListQueryValidator.
 using FluentValidation;
 
 namespace HotelCore.Application.MastersProjects.Queries.GetMasterProjectList;

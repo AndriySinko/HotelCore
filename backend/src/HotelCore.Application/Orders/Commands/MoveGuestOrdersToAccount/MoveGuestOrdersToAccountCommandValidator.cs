@@ -1,3 +1,4 @@
+// This file contains code for MoveGuestOrdersToAccountCommandValidator.
 using FluentValidation;
 
 namespace HotelCore.Application.Orders.Commands.MoveGuestOrdersToAccount;

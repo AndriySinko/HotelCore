@@ -1,3 +1,4 @@
+// This file contains code for CreateMasterProjectCommandHandler.
 using MediatR;
 using HotelCore.Application.Common.Interfaces;
 using HotelCore.Application.Common.Interfaces.Images;

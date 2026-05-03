@@ -1,3 +1,4 @@
+// This file contains code for DeleteWorkRequestCommandHandler.
 using MediatR;
 using HotelCore.Application.Common.Helpers;
 using HotelCore.Application.Common.Interfaces;

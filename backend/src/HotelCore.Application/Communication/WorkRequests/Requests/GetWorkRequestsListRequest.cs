@@ -1,3 +1,4 @@
+// This file contains code for GetWorkRequestsListRequest.
 using HotelCore.Application.Common.Models;
 using HotelCore.Domain.Enums;
 

@@ -1,3 +1,4 @@
+// This file contains code for GetCategoriesQueryValidator.
 using FluentValidation;
 
 namespace HotelCore.Application.Categories.Queries.GetCategories;

@@ -1,3 +1,4 @@
+// This file contains code for ClaimOrderWithGuestTokenCommandValidator.
 using FluentValidation;
 
 namespace HotelCore.Application.Orders.Commands.ClaimOrderWithGuestToken;

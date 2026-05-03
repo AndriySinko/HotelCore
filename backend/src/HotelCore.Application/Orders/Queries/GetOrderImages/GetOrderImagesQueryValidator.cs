@@ -1,3 +1,4 @@
+// This file contains code for GetOrderImagesQueryValidator.
 using FluentValidation;
 
 namespace HotelCore.Application.Orders.Queries.GetOrderImages;

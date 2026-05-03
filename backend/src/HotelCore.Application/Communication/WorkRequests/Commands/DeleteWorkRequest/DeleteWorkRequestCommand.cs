@@ -1,3 +1,4 @@
+// This file contains code for DeleteWorkRequestCommand.
 using MediatR;
 
 namespace HotelCore.Application.Communication.WorkRequests.Commands.DeleteWorkRequest;

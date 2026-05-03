@@ -1,3 +1,4 @@
+// This file contains code for RestoreCategoryCommand.
 using MediatR;
 
 namespace HotelCore.Application.Categories.Commands.RestoreCategory;

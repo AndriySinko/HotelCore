@@ -1,3 +1,4 @@
+// This file contains code for IdentityService.
 using Microsoft.AspNetCore.Identity;
 using HotelCore.Application.Common.Models;
 using HotelCore.Application.Identity;
@@ -85,7 +86,7 @@ public class IdentityService(
             return AuthenticationResult.Failure("Failed to update user role");
         }
 
-        // Manage ASP.NET Identity Roles
+        
         var currentRoles = await userManager.GetRolesAsync(user);
         await userManager.RemoveFromRolesAsync(user, currentRoles);
 
@@ -97,7 +98,7 @@ public class IdentityService(
         
         await userManager.AddToRoleAsync(user, targetRoleName);
 
-        // Generate new token reflecting new role
+        
         return await GenerateAuthResultAsync(user, cancellationToken);
     }
 

@@ -1,3 +1,4 @@
+// This file contains code for MvcExtensions.
 using Microsoft.AspNetCore.Mvc;
 using HotelCore.Api.Models;
 

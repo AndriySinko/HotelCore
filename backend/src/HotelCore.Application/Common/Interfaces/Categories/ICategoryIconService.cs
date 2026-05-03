@@ -1,3 +1,4 @@
+// This file contains code for ICategoryIconService.
 using Microsoft.AspNetCore.Http;
 using HotelCore.Application.Common.Interfaces.Storage;
 

@@ -1,3 +1,4 @@
+// This file contains code for GetOrdersListQueryValidator.
 using FluentValidation;
 
 namespace HotelCore.Application.Orders.Queries.GetOrdersList;

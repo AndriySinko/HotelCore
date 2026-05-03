@@ -1,3 +1,4 @@
+// This file contains code for Program.
 using HotelCore.Infrastructure;
 using HotelCore.Api.Middlewares;
 using HotelCore.Application;
@@ -6,14 +7,16 @@ using Microsoft.EntityFrameworkCore;
 using HotelCore.Infrastructure.Persistence;
 using HotelCore.ServiceDefaults;
 
+AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Configure Logging
+
 builder.ConfigureLogging();
 
 builder.AddServiceDefaults();
 
-// Add Services
+
 builder.Services.AddControllers()
     .AddJsonOptions(options =>
     {
@@ -28,10 +31,10 @@ builder.AddInfrastructure();
 builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 builder.Services.AddProblemDetails();
 
-// Configure Auth
+
 builder.Services.ConfigureAuthentication(builder.Configuration);
 
-// Register authorization handlers
+
 builder.Services.AddHttpContextAccessor();
 
 //builder.Services.AddCors(options =>
@@ -48,7 +51,7 @@ var app = builder.Build();
 
 app.MapDefaultEndpoints();
 
-// Configure Pipeline
+
 app.UseOpenApi();
 
 app.UseExceptionHandler();
@@ -62,7 +65,7 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-// Apply Migrations Automatically (Development only)
+
 if (app.Environment.IsDevelopment())
 {
     using var scope = app.Services.CreateScope();
@@ -70,8 +73,13 @@ if (app.Environment.IsDevelopment())
     await dbContext.Database.MigrateAsync();
 }
 
-// Seed Data
+
+await app.ResetTestDataAsync();  
 await app.SeedRolesAsync();
+await app.SeedAdminUserAsync();
+await app.SeedTestUsersAsync();
+await app.SeedCleaningWorkersAsync();
+await app.SeedRoomsAsync();
 await app.SeedRestaurantDataAsync();
 
 app.Run();

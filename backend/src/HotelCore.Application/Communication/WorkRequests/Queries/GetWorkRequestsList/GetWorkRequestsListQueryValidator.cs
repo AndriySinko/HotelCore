@@ -1,3 +1,4 @@
+// This file contains code for GetWorkRequestsListQueryValidator.
 using FluentValidation;
 
 namespace HotelCore.Application.Communication.WorkRequests.Queries.GetWorkRequestsList;

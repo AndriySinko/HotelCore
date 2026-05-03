@@ -1,3 +1,4 @@
+// This file contains code for ApiResult.
 namespace HotelCore.Api.Models;
 
 public record ApiResult<T>

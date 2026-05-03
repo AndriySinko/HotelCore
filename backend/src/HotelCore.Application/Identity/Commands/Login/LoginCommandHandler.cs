@@ -1,3 +1,4 @@
+// This file contains code for LoginCommandHandler.
 using MediatR;
 using Microsoft.Extensions.Logging;
 using HotelCore.Application.Identity.DTOs;

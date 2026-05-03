@@ -1,3 +1,4 @@
+// This file contains code for GetOrderImagesQueryHandler.
 using MediatR;
 using HotelCore.Application.Common.DTOs;
 using HotelCore.Application.Common.Interfaces.Orders;

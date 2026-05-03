@@ -1,3 +1,4 @@
+// This file contains code for GlobalExceptionHandler.
 using System.Net;
 using FluentValidation;
 using Microsoft.AspNetCore.Diagnostics;

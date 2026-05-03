@@ -1,3 +1,4 @@
+// This file contains code for UserHelper.
 using System.Security.Claims;
 
 namespace HotelCore.Api.Helpers;
