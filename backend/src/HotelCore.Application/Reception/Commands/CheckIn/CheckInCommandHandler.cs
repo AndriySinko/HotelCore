@@ -1,4 +1,3 @@
-// This file contains code for CheckInCommandHandler.
 using MediatR;
 using HotelCore.Application.Common.Interfaces;
 using HotelCore.Application.Common.Interfaces.Reception;
@@ -29,9 +28,7 @@ public class CheckInCommandHandler(
         var reservation = await reservationRepo.GetByIdWithDetailsAsync(command.ReservationId, ct)
             ?? throw new NotFoundException(nameof(Reservation), command.ReservationId);
 
-        
-        
-        
+        // identity check is optional — walk-in guests may not have a profile yet
         var guest = await guestRepo.GetByIdNoTrackingAsync(reservation.GuestId, ct);
         if (guest != null)
         {
@@ -54,6 +51,7 @@ public class CheckInCommandHandler(
         return new CheckInResultDto(true, keyNumber, room.RoomNumber);
     }
 
+    // tries the reserved room first, falls back to alternatives if it is not ready
     private async Task<Room> ResolveRoomAsync(Reservation reservation, CheckInCommand command, CancellationToken ct)
     {
         var room = reservation.Room
@@ -62,6 +60,7 @@ public class CheckInCommandHandler(
 
         if (!room.IsAvailable() && room.Status != RoomStatus.Reserved)
         {
+            // room was taken by another reservation or still under cleaning
             var alternatives = await roomRepo.GetAlternativeRoomsAsync(room.RoomType, reservation.CheckInDate, ct);
 
             if (alternatives.Count == 0)
@@ -81,6 +80,7 @@ public class CheckInCommandHandler(
 
     private static Payment CreatePayment(Reservation reservation, PaymentMethod method)
     {
+        // if dates are somehow same day, charge one nights worth as a minimum
         var nights = (reservation.CheckOutDate - reservation.CheckInDate).Days;
         var amount = nights > 0 ? reservation.GetTotalCharges() : reservation.Room?.PricePerNight ?? 0m;
 

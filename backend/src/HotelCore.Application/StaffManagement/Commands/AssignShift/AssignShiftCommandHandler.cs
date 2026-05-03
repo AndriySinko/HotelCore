@@ -1,4 +1,3 @@
-// This file contains code for AssignShiftCommandHandler.
 using MediatR;
 using HotelCore.Application.Common.Interfaces;
 using HotelCore.Application.Common.Interfaces.StaffManagement;
@@ -24,7 +23,7 @@ public class AssignShiftCommandHandler(
         var staff = await staffRepo.GetByIdAsync(command.StaffMemberId, ct)
             ?? throw new NotFoundException("StaffMember", command.StaffMemberId);
 
-        
+        // check +-1 day window to catch night shifts crossing midnight
         var windowStart = command.Date.AddDays(-1);
         var windowEnd   = command.Date.AddDays(1);
         var existingShifts = await shiftRepo.GetByStaffAsync(
@@ -33,7 +32,7 @@ public class AssignShiftCommandHandler(
         if (ShiftConflictService.HasConflict(command.Date, command.StartTime, command.EndTime, existingShifts))
             throw new ConflictException($"{staff.Position} already has a shift that overlaps with {command.Date:yyyy-MM-dd} {command.StartTime}–{command.EndTime}");
 
-        
+        // weekly hours check — dont exceed contract limit
         var weekStart = command.Date.AddDays(-(int)command.Date.DayOfWeek + (int)DayOfWeek.Monday);
         var weekEnd = weekStart.AddDays(7);
         var weeklyShifts = await shiftRepo.GetByStaffAsync(command.StaffMemberId, weekStart, weekEnd, ct);

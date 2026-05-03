@@ -1,4 +1,5 @@
-
+// home page after login — shows navigation cards filtered by the users role
+// each role sees only the modules relevant to them: guests see booking/cleaning, staff see their tools
 import { Link } from 'react-router-dom';
 import useAuthStore from '../stores/authStore';
 
@@ -8,10 +9,12 @@ interface NavCard {
   iconClass: string;
   title: string;
   description: string;
+  // list of roles that should see this card
   roles: string[];
   external?: boolean;
 }
 
+// all possible cards — filtered down to what the current user can see
 const NAV_CARDS: NavCard[] = [
   {
     to: '/reception',
@@ -67,6 +70,7 @@ const NAV_CARDS: NavCard[] = [
 export default function DashboardPage() {
   const { userName, role } = useAuthStore();
 
+  // if no role is set (unauthenticated edge case), show all cards — otherwise filter by role
   const visibleCards = NAV_CARDS.filter(
     (card) => !role || card.roles.includes(role)
   );

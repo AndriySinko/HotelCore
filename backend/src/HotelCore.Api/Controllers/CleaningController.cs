@@ -1,4 +1,5 @@
-// This file contains code for CleaningController.
+// REST endpoints for the cleaning module
+// access is split by role: guests can request, workers can complete, supervisors can assign and verify
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -21,6 +22,7 @@ namespace HotelCore.Api.Controllers;
 [Authorize]
 public class CleaningController(IMediator mediator, ApplicationDbContext db) : ControllerBase
 {
+    // guests and receptionists submit a new cleaning request for a room
     [HttpPost("request")]
     [Authorize(Roles = "Guest,Receptionist,Administrator")]
     public async Task<IActionResult> RequestCleaning(
@@ -30,6 +32,7 @@ public class CleaningController(IMediator mediator, ApplicationDbContext db) : C
         return Ok(ApiResult.Success(taskId));
     }
 
+    // returns all tasks that are Requested or Assigned — used in the supervisor assignment panel
     [HttpGet("tasks/pending")]
     [Authorize(Roles = "Supervisor,Administrator")]
     public async Task<IActionResult> GetPendingTasks(CancellationToken ct)
@@ -38,6 +41,7 @@ public class CleaningController(IMediator mediator, ApplicationDbContext db) : C
         return Ok(ApiResult.Success(tasks));
     }
 
+    // returns the task queue for a specific cleaning worker — ordered by priority
     [HttpGet("tasks/{staffId}")]
     [Authorize(Roles = "CleaningWorker,Supervisor,Administrator")]
     public async Task<IActionResult> GetTasksForStaff(Guid staffId, CancellationToken ct)
@@ -46,6 +50,7 @@ public class CleaningController(IMediator mediator, ApplicationDbContext db) : C
         return Ok(ApiResult.Success(tasks));
     }
 
+    // supervisor assigns a pending task to a specific cleaning worker
     [HttpPost("tasks/{taskId}/assign")]
     [Authorize(Roles = "Supervisor,Administrator")]
     public async Task<IActionResult> AssignTask(Guid taskId, [FromBody] AssignTaskRequest request, CancellationToken ct)
@@ -54,6 +59,7 @@ public class CleaningController(IMediator mediator, ApplicationDbContext db) : C
         return Ok(ApiResult.Success(true));
     }
 
+    // cleaning worker marks a task as done after finishing the room
     [HttpPost("tasks/{taskId}/complete")]
     [Authorize(Roles = "CleaningWorker,Supervisor,Administrator")]
     public async Task<IActionResult> Complete(Guid taskId, CancellationToken ct)
@@ -62,6 +68,8 @@ public class CleaningController(IMediator mediator, ApplicationDbContext db) : C
         return Ok(ApiResult.Success(true));
     }
 
+    // supervisor inspects the room and verifies the cleaning was done properly
+    // only supervisors can verify — worker self-verification is not allowed
     [HttpPost("tasks/{taskId}/verify")]
     [Authorize(Roles = "Supervisor,Administrator")]
     public async Task<IActionResult> Verify(Guid taskId, CancellationToken ct)
@@ -70,6 +78,7 @@ public class CleaningController(IMediator mediator, ApplicationDbContext db) : C
         return Ok(ApiResult.Success(true));
     }
 
+    // any involved party can cancel — a reason is required for the audit trail
     [HttpPost("tasks/{taskId}/cancel")]
     [Authorize(Roles = "CleaningWorker,Supervisor,Receptionist,Administrator")]
     public async Task<IActionResult> Cancel(Guid taskId, [FromBody] string reason, CancellationToken ct)
@@ -78,6 +87,7 @@ public class CleaningController(IMediator mediator, ApplicationDbContext db) : C
         return Ok(ApiResult.Success(true));
     }
 
+    // returns all users with the CleaningWorker role — used to populate the worker dropdown in the assignment panel
     [HttpGet("workers")]
     [Authorize(Roles = "Supervisor,Administrator")]
     public async Task<IActionResult> GetCleaningWorkers(CancellationToken ct)

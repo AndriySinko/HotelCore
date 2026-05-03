@@ -1,16 +1,11 @@
-// This file contains code for ShiftConflictService.
+// extracted so bulk assign can reuse without copy-paste
 using HotelCore.Domain.Entities.StaffManagement;
 
 namespace HotelCore.Domain.Services;
 
-
-
 public static class ShiftConflictService
 {
-    
-    
-    
-    
+    // end <= start means night shift crossing midnight, push end to next day
     public static bool HasConflict(
         DateTime proposedDate,
         DateTime proposedStart,

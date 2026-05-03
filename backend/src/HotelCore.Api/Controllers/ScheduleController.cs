@@ -1,4 +1,5 @@
-// This file contains code for ScheduleController.
+// endpoints for the staff scheduling module
+// managers create and publish schedules, staff see their own shifts
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -20,7 +21,8 @@ namespace HotelCore.Api.Controllers;
 [Authorize]
 public class ScheduleController(IMediator mediator, IShiftRepository shiftRepo, IWorkScheduleRepository scheduleRepo, IUnitOfWork unitOfWork) : ControllerBase
 {
-    
+    // returns all schedules with their shifts — used by the manager in the schedule list view
+    // the response is mapped inline to avoid creating a separate DTO for this shape
     [HttpGet]
     [Authorize(Roles = "HotelManager,Administrator")]
     public async Task<IActionResult> GetAllSchedules(CancellationToken ct)
@@ -49,6 +51,7 @@ public class ScheduleController(IMediator mediator, IShiftRepository shiftRepo, 
         return Ok(ApiResult.Success(result));
     }
 
+    // creates a new schedule for a week period — starts in Draft status
     [HttpPost]
     [Authorize(Roles = "HotelManager,Administrator")]
     public async Task<IActionResult> CreateSchedule([FromBody] CreateScheduleCommand command, CancellationToken ct)
@@ -57,6 +60,7 @@ public class ScheduleController(IMediator mediator, IShiftRepository shiftRepo, 
         return Ok(ApiResult.Success(id));
     }
 
+    // removes all shifts from a schedule — used when the manager wants to rebuild the grid from scratch
     [HttpDelete("{scheduleId}/shifts")]
     [Authorize(Roles = "HotelManager,Administrator")]
     public async Task<IActionResult> ClearShifts(Guid scheduleId, CancellationToken ct)
@@ -66,6 +70,7 @@ public class ScheduleController(IMediator mediator, IShiftRepository shiftRepo, 
         return Ok(ApiResult.Success(true));
     }
 
+    // adds a single shift to an existing schedule — validates overlap and contract hours
     [HttpPost("{scheduleId}/shifts")]
     [Authorize(Roles = "HotelManager,Administrator")]
     public async Task<IActionResult> AssignShift(Guid scheduleId, [FromBody] AssignShiftCommand command, CancellationToken ct)
@@ -74,6 +79,7 @@ public class ScheduleController(IMediator mediator, IShiftRepository shiftRepo, 
         return Ok(ApiResult.Success(shiftId));
     }
 
+    // saves the current grid as a draft — does not notify staff
     [HttpPost("{scheduleId}/save-draft")]
     [Authorize(Roles = "HotelManager,Administrator")]
     public async Task<IActionResult> SaveDraft(Guid scheduleId, CancellationToken ct)
@@ -82,6 +88,7 @@ public class ScheduleController(IMediator mediator, IShiftRepository shiftRepo, 
         return Ok(ApiResult.Success(true));
     }
 
+    // publishes the schedule — makes it visible to staff and sends notifications
     [HttpPost("{scheduleId}/publish")]
     [Authorize(Roles = "HotelManager,Administrator")]
     public async Task<IActionResult> Publish(Guid scheduleId, CancellationToken ct)
@@ -90,6 +97,7 @@ public class ScheduleController(IMediator mediator, IShiftRepository shiftRepo, 
         return Ok(ApiResult.Success(true));
     }
 
+    // returns a single schedule with all its shifts — used when the manager opens a specific week
     [HttpGet("{scheduleId}")]
     [Authorize(Roles = "HotelManager,Administrator")]
     public async Task<IActionResult> GetSchedule(Guid scheduleId, CancellationToken ct)
@@ -98,6 +106,7 @@ public class ScheduleController(IMediator mediator, IShiftRepository shiftRepo, 
         return Ok(ApiResult.Success(schedule));
     }
 
+    // staff members call this to see their own shifts from the latest published schedule
     [HttpGet("my-shifts/{staffId}")]
     [Authorize(Roles = "CleaningWorker,KitchenStaff,Receptionist,HotelManager,Supervisor,Administrator")]
     public async Task<IActionResult> GetMyShifts(Guid staffId, CancellationToken ct)
@@ -106,7 +115,7 @@ public class ScheduleController(IMediator mediator, IShiftRepository shiftRepo, 
         return Ok(ApiResult.Success(schedule));
     }
 
-    
+    // returns employee list for shift assignment — managers can filter by department
     [HttpGet("employees")]
     [Authorize(Roles = "HotelManager,Administrator,CleaningWorker,KitchenStaff,Receptionist")]
     public async Task<IActionResult> GetEmployees([FromQuery] string? department, CancellationToken ct)

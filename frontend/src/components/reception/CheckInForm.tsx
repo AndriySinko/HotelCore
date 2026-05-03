@@ -8,6 +8,7 @@
 
 
 
+// steps: search → identity → (room if original is taken) → confirmation
 import { useState } from 'react';
 import ReservationSearch from './ReservationSearch';
 import GuestIdentityForm, { type IdentityFormValues } from './GuestIdentityForm';
