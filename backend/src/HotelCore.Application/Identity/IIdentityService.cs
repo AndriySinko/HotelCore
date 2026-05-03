@@ -1,3 +1,4 @@
+// This file contains code for IIdentityService.
 using HotelCore.Application.Common.Models;
 using HotelCore.Application.Identity.DTOs;
 using HotelCore.Domain.Enums;

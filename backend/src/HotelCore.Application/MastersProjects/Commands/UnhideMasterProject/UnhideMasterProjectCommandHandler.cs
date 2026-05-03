@@ -1,3 +1,4 @@
+// This file contains code for UnhideMasterProjectCommandHandler.
 using MediatR;
 using HotelCore.Application.Common.Interfaces;
 

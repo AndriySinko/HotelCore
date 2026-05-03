@@ -1,3 +1,4 @@
+// This file contains code for OrderClientDto.
 namespace HotelCore.Application.Orders.DTOs;
 
 public class OrderClientDto

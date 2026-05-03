@@ -1,3 +1,4 @@
+// This file contains code for IOrderRepository.
 using HotelCore.Application.Common.Models;
 using HotelCore.Application.Orders.Models;
 using HotelCore.Domain.Entities.Images;

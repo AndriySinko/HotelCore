@@ -1,3 +1,4 @@
+// This file contains code for DeleteMasterProjectCommand.
 using MediatR;
 
 namespace HotelCore.Application.MastersProjects.Commands.DeleteMasterProject;

@@ -1,3 +1,4 @@
+// This file contains code for QueryableExtensions.
 using HotelCore.Application.Common.Models;
 
 namespace HotelCore.Application.Common.Extensions;

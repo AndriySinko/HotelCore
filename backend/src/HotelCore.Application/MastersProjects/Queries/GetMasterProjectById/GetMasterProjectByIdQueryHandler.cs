@@ -1,3 +1,4 @@
+// This file contains code for GetMasterProjectByIdQueryHandler.
 using MediatR;
 using HotelCore.Application.Common.Interfaces.WorkersPortfolio;
 using HotelCore.Application.Common.Mappers;

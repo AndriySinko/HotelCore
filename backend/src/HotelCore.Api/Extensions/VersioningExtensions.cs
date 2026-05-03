@@ -1,3 +1,4 @@
+// This file contains code for VersioningExtensions.
 using Asp.Versioning;
 
 namespace HotelCore.Api.Extensions;

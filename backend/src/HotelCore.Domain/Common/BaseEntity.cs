@@ -1,3 +1,4 @@
+// This file contains code for BaseEntity.
 namespace HotelCore.Domain.Common;
 
 public abstract class BaseEntity : IBaseEntity

@@ -1,3 +1,4 @@
+// This file contains code for LoggingExtensions.
 using Serilog;
 
 namespace HotelCore.Api.Extensions;

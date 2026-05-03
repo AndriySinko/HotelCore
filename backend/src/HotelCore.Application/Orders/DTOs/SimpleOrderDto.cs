@@ -1,3 +1,4 @@
+// This file contains code for SimpleOrderDto.
 using HotelCore.Domain.Enums;
 
 namespace HotelCore.Application.Orders.DTOs;

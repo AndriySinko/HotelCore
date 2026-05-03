@@ -1,3 +1,4 @@
+// This file contains code for UpdateCategoryCommand.
 using MediatR;
 using HotelCore.Application.Categories.DTOs;
 

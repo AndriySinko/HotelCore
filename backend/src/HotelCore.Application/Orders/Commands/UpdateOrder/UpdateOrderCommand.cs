@@ -1,3 +1,4 @@
+// This file contains code for UpdateOrderCommand.
 using MediatR;
 using HotelCore.Domain.Enums;
 

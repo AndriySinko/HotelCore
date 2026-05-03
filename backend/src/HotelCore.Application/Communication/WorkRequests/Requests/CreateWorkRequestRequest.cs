@@ -1,3 +1,4 @@
+// This file contains code for CreateWorkRequestRequest.
 namespace HotelCore.Application.Communication.WorkRequests.Requests;
 
 public record CreateWorkRequestRequest(

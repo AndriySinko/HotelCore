@@ -1,3 +1,4 @@
+// This file contains code for GenerateOrderAccessTokenCommandValidator.
 using FluentValidation;
 
 namespace HotelCore.Application.Orders.Commands.GenerateOrderAccessToken;

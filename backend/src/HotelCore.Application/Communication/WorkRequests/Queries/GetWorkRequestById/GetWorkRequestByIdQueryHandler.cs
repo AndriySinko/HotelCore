@@ -1,3 +1,4 @@
+// This file contains code for GetWorkRequestByIdQueryHandler.
 using MediatR;
 using HotelCore.Application.Common.Interfaces.WorkRequests;
 using HotelCore.Application.Communication.WorkRequests.DTOs;

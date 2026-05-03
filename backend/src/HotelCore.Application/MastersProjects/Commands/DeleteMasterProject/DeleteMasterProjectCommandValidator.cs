@@ -1,3 +1,4 @@
+// This file contains code for DeleteMasterProjectCommandValidator.
 using FluentValidation;
 
 namespace HotelCore.Application.MastersProjects.Commands.DeleteMasterProject;

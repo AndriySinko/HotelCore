@@ -1,3 +1,4 @@
+// This file contains code for ConflictException.
 using HotelCore.Domain.Constants;
 
 namespace HotelCore.Domain.Exceptions;

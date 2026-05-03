@@ -1,3 +1,4 @@
+// This file contains code for GetMasterProjectListQuerieHandler.
 using MediatR;
 
 using HotelCore.Application.Common.Interfaces.WorkersPortfolio;

@@ -1,3 +1,4 @@
+// This file contains code for RegisterCommand.
 using MediatR;
 using HotelCore.Application.Common.Models;
 using HotelCore.Domain.Enums;

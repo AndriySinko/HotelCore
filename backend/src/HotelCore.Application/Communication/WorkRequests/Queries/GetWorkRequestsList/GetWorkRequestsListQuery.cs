@@ -1,3 +1,4 @@
+// This file contains code for GetWorkRequestsListQuery.
 using MediatR;
 using HotelCore.Application.Common.Models;
 using HotelCore.Application.Communication.WorkRequests.DTOs;

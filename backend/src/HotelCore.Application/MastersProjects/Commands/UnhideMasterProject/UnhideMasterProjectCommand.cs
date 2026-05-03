@@ -1,3 +1,4 @@
+// This file contains code for UnhideMasterProjectCommand.
 using MediatR;
 
 namespace HotelCore.Application.MastersProjects.Commands.UnhideMasterProject;

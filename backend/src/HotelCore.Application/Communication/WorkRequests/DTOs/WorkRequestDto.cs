@@ -1,3 +1,4 @@
+// This file contains code for WorkRequestDto.
 using HotelCore.Domain.Enums;
 
 namespace HotelCore.Application.Communication.WorkRequests.DTOs;

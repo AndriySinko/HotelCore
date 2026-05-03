@@ -1,3 +1,4 @@
+// This file contains code for DependencyInjection.
 using System.Reflection;
 using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;

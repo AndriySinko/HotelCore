@@ -1,3 +1,4 @@
+// This file contains code for ApiError.
 namespace HotelCore.Api.Models;
 
 

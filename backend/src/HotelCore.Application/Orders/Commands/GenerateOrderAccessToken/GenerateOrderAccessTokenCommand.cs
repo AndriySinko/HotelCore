@@ -1,3 +1,4 @@
+// This file contains code for GenerateOrderAccessTokenCommand.
 using MediatR;
 
 namespace HotelCore.Application.Orders.Commands.GenerateOrderAccessToken;

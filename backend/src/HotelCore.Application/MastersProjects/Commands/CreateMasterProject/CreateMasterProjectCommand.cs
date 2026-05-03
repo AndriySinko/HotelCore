@@ -1,3 +1,4 @@
+// This file contains code for CreateMasterProjectCommand.
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using HotelCore.Application.MastersProjects.DTOs;

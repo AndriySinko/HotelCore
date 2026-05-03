@@ -1,3 +1,4 @@
+// This file contains code for GetCategoriesQueryHandler.
 using MediatR;
 using Microsoft.Extensions.Logging;
 using HotelCore.Application.Categories.DTOs;

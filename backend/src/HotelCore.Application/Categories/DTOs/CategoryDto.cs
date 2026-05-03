@@ -1,3 +1,4 @@
+// This file contains code for CategoryDto.
 namespace HotelCore.Application.Categories.DTOs;
 
 public record CategoryDto(

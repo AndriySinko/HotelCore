@@ -1,3 +1,4 @@
+// This file contains code for NotFoundException.
 using HotelCore.Domain.Constants;
 
 namespace HotelCore.Domain.Exceptions;

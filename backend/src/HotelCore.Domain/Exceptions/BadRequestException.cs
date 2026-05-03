@@ -1,3 +1,4 @@
+// This file contains code for BadRequestException.
 using HotelCore.Domain.Constants;
 
 namespace HotelCore.Domain.Exceptions;

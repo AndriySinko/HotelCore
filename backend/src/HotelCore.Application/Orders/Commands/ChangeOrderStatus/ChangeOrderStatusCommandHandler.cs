@@ -1,3 +1,4 @@
+// This file contains code for ChangeOrderStatusCommandHandler.
 using MediatR;
 using HotelCore.Application.Common.Helpers;
 using HotelCore.Application.Common.Interfaces;
@@ -42,7 +43,7 @@ public class ChangeOrderStatusCommandHandler(
             oldValue: oldStatus,
             newValue: request.NewStatus,
             changedByUserId: request.CurrentUserId,
-            changeDescription: $"Order status changed from {oldStatus} to {request.NewStatus}" // TODO: change to dynamic language translations
+            changeDescription: $"Order status changed from {oldStatus} to {request.NewStatus}" 
         );
 
         orderRepository.Update(order);

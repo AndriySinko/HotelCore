@@ -1,3 +1,4 @@
+// This file contains code for ITokenService.
 using HotelCore.Domain.Entities.Users;
 
 namespace HotelCore.Application.Identity;

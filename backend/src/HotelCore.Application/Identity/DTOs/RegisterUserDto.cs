@@ -1,3 +1,4 @@
+// This file contains code for RegisterUserDto.
 using HotelCore.Domain.Enums;
 
 namespace HotelCore.Application.Identity.DTOs;

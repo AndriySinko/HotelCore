@@ -1,3 +1,4 @@
+// This file contains code for CreateWorkRequestCommand.
 using MediatR;
 
 namespace HotelCore.Application.Communication.WorkRequests.Commands.CreateWorkRequest;

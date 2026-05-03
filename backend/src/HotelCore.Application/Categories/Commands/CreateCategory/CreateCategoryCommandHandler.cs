@@ -1,3 +1,4 @@
+// This file contains code for CreateCategoryCommandHandler.
 using MediatR;
 using HotelCore.Application.Categories.DTOs;
 using HotelCore.Application.Common.Interfaces;

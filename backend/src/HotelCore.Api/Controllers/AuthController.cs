@@ -1,3 +1,4 @@
+// This file contains code for AuthController.
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using HotelCore.Application.Identity;

@@ -1,4 +1,5 @@
-﻿using System;
+// This file contains code for ClaimOrderRequest.
+using System;
 using System.Collections.Generic;
 using System.Text;
 

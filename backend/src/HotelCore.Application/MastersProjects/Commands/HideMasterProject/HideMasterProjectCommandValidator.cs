@@ -1,3 +1,4 @@
+// This file contains code for HideMasterProjectCommandValidator.
 using FluentValidation;
 
 namespace HotelCore.Application.MastersProjects.Commands.HideMasterProject;

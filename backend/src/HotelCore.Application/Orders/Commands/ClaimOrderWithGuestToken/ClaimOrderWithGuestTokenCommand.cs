@@ -1,3 +1,4 @@
+// This file contains code for ClaimOrderWithGuestTokenCommand.
 using MediatR;
 
 namespace HotelCore.Application.Orders.Commands.ClaimOrderWithGuestToken;

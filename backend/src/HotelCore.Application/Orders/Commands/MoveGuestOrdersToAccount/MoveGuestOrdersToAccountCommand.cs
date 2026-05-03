@@ -1,3 +1,4 @@
+// This file contains code for MoveGuestOrdersToAccountCommand.
 using MediatR;
 
 namespace HotelCore.Application.Orders.Commands.MoveGuestOrdersToAccount;

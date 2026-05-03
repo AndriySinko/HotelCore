@@ -1,3 +1,4 @@
+// This file contains code for WorkRequestsFilter.
 using HotelCore.Domain.Enums;
 
 namespace HotelCore.Application.Communication.WorkRequests.Models;

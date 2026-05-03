@@ -1,3 +1,4 @@
+// This file contains code for UnhideOrderCommandValidator.
 using FluentValidation;
 
 namespace HotelCore.Application.Orders.Commands.UnhideOrder;

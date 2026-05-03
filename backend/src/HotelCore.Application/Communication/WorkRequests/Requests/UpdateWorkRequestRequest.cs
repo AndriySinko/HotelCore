@@ -1,3 +1,4 @@
+// This file contains code for UpdateWorkRequestRequest.
 namespace HotelCore.Application.Communication.WorkRequests.Requests;
 
 public record UpdateWorkRequestRequest(

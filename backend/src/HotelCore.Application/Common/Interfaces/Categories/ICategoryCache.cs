@@ -1,3 +1,4 @@
+// This file contains code for ICategoryCache.
 using HotelCore.Application.Categories.DTOs;
 using HotelCore.Application.Categories.Queries.GetCategories;
 

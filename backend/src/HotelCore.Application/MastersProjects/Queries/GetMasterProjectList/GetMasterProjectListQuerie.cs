@@ -1,3 +1,4 @@
+// This file contains code for GetMasterProjectListQuerie.
 using MediatR;
 using HotelCore.Application.Common.Models;
 using HotelCore.Application.MastersProjects.DTOs;

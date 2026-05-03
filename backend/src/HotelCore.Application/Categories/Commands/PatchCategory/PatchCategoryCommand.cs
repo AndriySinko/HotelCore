@@ -1,3 +1,4 @@
+// This file contains code for PatchCategoryCommand.
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using HotelCore.Application.Categories.DTOs;

@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+// This file contains code for AddOrderImagesRequest.
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Text;

@@ -1,3 +1,4 @@
+// This file contains code for GetSubOrdersQueryHandler.
 using MediatR;
 using HotelCore.Application.Common.Interfaces.Orders;
 using HotelCore.Application.Orders.DTOs;

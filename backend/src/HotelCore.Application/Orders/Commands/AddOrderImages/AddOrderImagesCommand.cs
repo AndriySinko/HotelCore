@@ -1,3 +1,4 @@
+// This file contains code for AddOrderImagesCommand.
 using MediatR;
 using Microsoft.AspNetCore.Http;
 

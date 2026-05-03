@@ -1,3 +1,4 @@
+// This file contains code for GetMasterProjectListRequest.
 using HotelCore.Application.Common.Models;
 
 namespace HotelCore.Application.MastersProjects.Requests;

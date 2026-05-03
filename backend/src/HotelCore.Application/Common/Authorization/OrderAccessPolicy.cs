@@ -1,3 +1,4 @@
+// This file contains code for OrderAccessPolicy.
 using HotelCore.Application.Common.Interfaces.Orders;
 using HotelCore.Domain.Entities.Orders;
 

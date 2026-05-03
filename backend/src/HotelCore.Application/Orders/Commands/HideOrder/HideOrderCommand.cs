@@ -1,3 +1,4 @@
+// This file contains code for HideOrderCommand.
 using MediatR;
 
 namespace HotelCore.Application.Orders.Commands.HideOrder;

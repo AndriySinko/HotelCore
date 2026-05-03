@@ -1,3 +1,4 @@
+// This file contains code for IWorkerPortfolioItemRepository.
 using HotelCore.Application.Common.Models;
 using HotelCore.Application.MastersProjects.Models;
 using HotelCore.Domain.Entities.Workers;

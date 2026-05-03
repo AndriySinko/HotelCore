@@ -1,3 +1,4 @@
+// This file contains code for AuthExtensions.
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;

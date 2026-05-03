@@ -1,3 +1,4 @@
+// This file contains code for UnhideOrderCommandHandler.
 using MediatR;
 using Microsoft.Extensions.Logging;
 using HotelCore.Application.Common.Helpers;
@@ -43,7 +44,7 @@ public class UnhideOrderCommandHandler(
             oldValue: true,
             newValue: false,
             changedByUserId: request.CurrentUserId,
-            changeDescription: "Order unhidden" // TODO: change to dynamic language translations
+            changeDescription: "Order unhidden" 
         );
 
         orderRepository.Update(order);

@@ -1,3 +1,4 @@
+// This file contains code for HideOrderCommandValidator.
 using FluentValidation;
 
 namespace HotelCore.Application.Orders.Commands.HideOrder;

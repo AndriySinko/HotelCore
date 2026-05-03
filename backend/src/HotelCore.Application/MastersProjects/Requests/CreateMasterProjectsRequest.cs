@@ -1,3 +1,4 @@
+// This file contains code for CreateMasterProjectsRequest.
 using Microsoft.AspNetCore.Http;
 
 namespace HotelCore.Application.MastersProjects.Requests;

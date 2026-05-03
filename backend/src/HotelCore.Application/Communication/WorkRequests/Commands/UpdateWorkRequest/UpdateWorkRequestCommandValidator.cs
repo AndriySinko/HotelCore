@@ -1,3 +1,4 @@
+// This file contains code for UpdateWorkRequestCommandValidator.
 using FluentValidation;
 
 namespace HotelCore.Application.Communication.WorkRequests.Commands.UpdateWorkRequest;

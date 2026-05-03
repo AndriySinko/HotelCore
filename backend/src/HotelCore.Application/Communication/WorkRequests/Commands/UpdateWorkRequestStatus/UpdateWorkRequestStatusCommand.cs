@@ -1,3 +1,4 @@
+// This file contains code for UpdateWorkRequestStatusCommand.
 using MediatR;
 using HotelCore.Domain.Enums;
 

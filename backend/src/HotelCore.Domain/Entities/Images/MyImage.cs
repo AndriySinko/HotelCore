@@ -1,4 +1,5 @@
-﻿using HotelCore.Domain.Enums;
+// This file contains code for MyImage.
+using HotelCore.Domain.Enums;
 
 namespace HotelCore.Domain.Entities.Images;
 

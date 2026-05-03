@@ -1,3 +1,4 @@
+// This file contains code for UpdateMasterProjectCommandValidator.
 using FluentValidation;
 using HotelCore.Application.Common.Images;
 
