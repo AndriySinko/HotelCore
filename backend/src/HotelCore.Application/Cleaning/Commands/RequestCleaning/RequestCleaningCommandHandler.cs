@@ -1,4 +1,3 @@
-// This file contains code for RequestCleaningCommandHandler.
 using MediatR;
 using HotelCore.Application.Common.Interfaces;
 using HotelCore.Application.Common.Interfaces.Cleaning;
@@ -19,7 +18,7 @@ public class RequestCleaningCommandHandler(
 {
     public async Task<Guid> Handle(RequestCleaningCommand command, CancellationToken cancellationToken)
     {
-        
+        // check if a cleaning task already exists for this room before creating a new one
         var existingTasksForRoom = await cleaningTaskRepository.GetByRoomAsync(command.RoomId, cancellationToken);
         bool hasActiveDuplicate = existingTasksForRoom.Any(existingTask =>
             existingTask.Status != CleaningTaskStatus.Completed &&

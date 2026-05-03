@@ -1,3 +1,4 @@
+// shows different views based on user role — guest request form, worker task list, or supervisor assign panel
 import { useState, useEffect, useCallback } from 'react';
 import useAuthStore from '../stores/authStore';
 import CleaningRequestForm from '../components/cleaning/CleaningRequestForm';
