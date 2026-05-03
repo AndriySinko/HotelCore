@@ -1,4 +1,4 @@
-
+// personal shift view, filters by staffMemberId from the full schedule
 import type { ShiftDto } from '../../types';
 
 interface Props {
