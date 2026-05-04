@@ -375,3 +375,4 @@ FodyWeavers.xsd
 
 .idea/
 .claude/settings.local.json
+/backend/src/HotelCore.Api/wwwroot/qrcodes

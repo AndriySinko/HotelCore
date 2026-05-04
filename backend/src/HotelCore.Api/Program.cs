@@ -81,5 +81,6 @@ await app.SeedTestUsersAsync();
 await app.SeedCleaningWorkersAsync();
 await app.SeedRoomsAsync();
 await app.SeedRestaurantDataAsync();
+await app.SeedDemoReservationAsync();
 
 app.Run();

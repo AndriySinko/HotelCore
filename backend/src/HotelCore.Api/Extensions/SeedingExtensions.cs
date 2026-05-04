@@ -252,4 +252,58 @@ public static class SeedingExtensions
         db.ProductCategories.AddRange(breakfast, mains, salads, desserts, drinks);
         await db.SaveChangesAsync();
     }
+
+    // Fixed QR code for dev — scan http://<frontend>/reservation/HC-PREVIEW on the mobile app.
+    public const string DemoReservationQrCode = "HC-PREVIEW";
+
+    public static async Task SeedDemoReservationAsync(this WebApplication app)
+    {
+        using var scope = app.Services.CreateScope();
+        var db = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+        var userManager = scope.ServiceProvider.GetRequiredService<UserManager<User>>();
+
+        const string email = "demo.reservation@hotelcore.local";
+
+        // Re-create the demo guest (ResetTestDataAsync deletes all role=0 users on every startup).
+        var existing = await userManager.FindByEmailAsync(email);
+        Guest demoGuest;
+
+        if (existing is Guest g)
+        {
+            demoGuest = g;
+        }
+        else
+        {
+            demoGuest = new Guest
+            {
+                Email = email,
+                UserName = email,
+                FirstName = "Demo",
+                LastName = "Guest",
+                RoomNumber = "101",
+                Role = UserRole.Guest,
+                EmailConfirmed = true,
+            };
+            await userManager.CreateAsync(demoGuest, "Demo@12345!");
+        }
+
+        // Re-create the demo reservation (also deleted by ResetTestDataAsync).
+        if (await db.Reservations.AnyAsync(r => r.QrCode == DemoReservationQrCode))
+            return;
+
+        var room = await db.Rooms.FirstOrDefaultAsync(r => r.RoomNumber == "101");
+        if (room is null) return;
+
+        db.Reservations.Add(new Reservation
+        {
+            GuestId = demoGuest.Id,
+            RoomId = room.Id,
+            CheckInDate = DateTime.UtcNow.Date,
+            CheckOutDate = DateTime.UtcNow.Date.AddDays(3),
+            NumberOfGuests = 1,
+            QrCode = DemoReservationQrCode,
+        });
+
+        await db.SaveChangesAsync();
+    }
 }

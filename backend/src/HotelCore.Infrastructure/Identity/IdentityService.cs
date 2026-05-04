@@ -1,10 +1,11 @@
-// This file contains code for IdentityService.
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using HotelCore.Application.Common.Models;
 using HotelCore.Application.Identity;
 using HotelCore.Application.Identity.DTOs;
 using HotelCore.Domain.Entities.Users;
 using HotelCore.Domain.Enums;
+using HotelCore.Infrastructure.Persistence;
 using Microsoft.Extensions.Logging;
 
 namespace HotelCore.Infrastructure.Identity;
@@ -13,6 +14,7 @@ public class IdentityService(
     UserManager<User> userManager,
     RoleManager<IdentityRole<Guid>> roleManager,
     ITokenService tokenService,
+    ApplicationDbContext db,
     ILogger<IdentityService> logger) : IIdentityService
 {
     private const string DemoGuestEmail = "demo@hotelcore.local";
@@ -23,7 +25,7 @@ public class IdentityService(
         var systemRole = dto.Role;
 
         var roleName = systemRole.ToString();
-        
+
         var user = new User
         {
             Email = dto.Email,
@@ -32,7 +34,7 @@ public class IdentityService(
         };
 
         var result = await userManager.CreateAsync(user, dto.Password);
-        
+
         if (!result.Succeeded)
         {
             return AuthenticationResult.Failure(string.Join(", ", result.Errors.Select(e => e.Description)));
@@ -44,14 +46,14 @@ public class IdentityService(
         }
 
         await userManager.AddToRoleAsync(user, roleName);
-        
+
         return await GenerateAuthResultAsync(user);
     }
 
     public async Task<AuthenticationResult> LoginAsync(LoginUserDto dto, CancellationToken cancellationToken = default)
     {
         var user = await userManager.FindByEmailAsync(dto.Email);
-        
+
         if (user == null)
         {
             return AuthenticationResult.Failure("Invalid email or password.");
@@ -61,14 +63,14 @@ public class IdentityService(
         {
             return AuthenticationResult.Failure("Invalid email or password.");
         }
-        
+
         return await GenerateAuthResultAsync(user, cancellationToken);
     }
 
     public async Task<AuthenticationResult> SwitchRoleAsync(Guid userId, UserRole targetRole, CancellationToken cancellationToken = default)
     {
         var user = await userManager.FindByIdAsync(userId.ToString());
-        
+
         if (user == null)
         {
             return AuthenticationResult.Failure("User not found");
@@ -86,7 +88,6 @@ public class IdentityService(
             return AuthenticationResult.Failure("Failed to update user role");
         }
 
-        
         var currentRoles = await userManager.GetRolesAsync(user);
         await userManager.RemoveFromRolesAsync(user, currentRoles);
 
@@ -95,10 +96,9 @@ public class IdentityService(
         {
             await roleManager.CreateAsync(new IdentityRole<Guid>(targetRoleName));
         }
-        
+
         await userManager.AddToRoleAsync(user, targetRoleName);
 
-        
         return await GenerateAuthResultAsync(user, cancellationToken);
     }
 
@@ -107,6 +107,42 @@ public class IdentityService(
         if (string.IsNullOrWhiteSpace(qrToken))
             return QrLoginResult.Failure("Invalid QR code.");
 
+        if (qrToken.Equals("demo", StringComparison.OrdinalIgnoreCase))
+            return await HandleDemoLoginAsync();
+
+        var code = ExtractReservationCode(qrToken);
+
+        var reservation = await db.Reservations
+            .Include(r => r.Guest)
+            .Include(r => r.Room)
+            .FirstOrDefaultAsync(r => r.QrCode == code, cancellationToken);
+
+        if (reservation is null)
+            return QrLoginResult.Failure("QR code not recognised.");
+
+        if (reservation.Guest is null)
+            return QrLoginResult.Failure("No guest linked to this reservation.");
+
+        var token = tokenService.GenerateToken(reservation.Guest, [UserRole.Guest.ToString()]);
+
+        return QrLoginResult.Success(
+            token,
+            reservation.Guest.Id.ToString(),
+            reservation.Guest.GetFullName(),
+            reservation.Room?.RoomNumber);
+    }
+
+    // Extracts "HC-C7EAHC" from either "http://localhost:3000/reservation/HC-C7EAHC" or a bare code.
+    private static string ExtractReservationCode(string qrToken)
+    {
+        if (Uri.TryCreate(qrToken, UriKind.Absolute, out var uri))
+            return uri.Segments.Last().Trim('/');
+
+        return qrToken.Trim();
+    }
+
+    private async Task<QrLoginResult> HandleDemoLoginAsync()
+    {
         var user = await userManager.FindByEmailAsync(DemoGuestEmail);
 
         if (user is null)
@@ -132,12 +168,12 @@ public class IdentityService(
         }
 
         var token = tokenService.GenerateToken(user, [UserRole.Guest.ToString()]);
-        var guest2 = user as Guest;
-        var name = guest2 is not null
-            ? $"{guest2.FirstName} {guest2.LastName}"
+        var demoGuest = user as Guest;
+        var name = demoGuest is not null
+            ? $"{demoGuest.FirstName} {demoGuest.LastName}"
             : user.UserName ?? DemoGuestEmail;
 
-        return QrLoginResult.Success(token, user.Id.ToString(), name, guest2?.RoomNumber);
+        return QrLoginResult.Success(token, user.Id.ToString(), name, demoGuest?.RoomNumber);
     }
 
     private async Task<AuthenticationResult> GenerateAuthResultAsync(User user, CancellationToken cancellationToken = default)
@@ -174,9 +210,9 @@ public class IdentityService(
         var userName = user.UserName ?? user.Email ?? "Unknown";
 
         return AuthenticationResult.Success(
-            token, 
-            user.Id.ToString(), 
-            userName, 
+            token,
+            user.Id.ToString(),
+            userName,
             role);
     }
 }
