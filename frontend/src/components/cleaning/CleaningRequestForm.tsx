@@ -125,7 +125,7 @@ export default function CleaningRequestForm({ onSuccess }: Props) {
         <div className="info-card" style={{ textAlign: 'left', marginBottom: 24 }}>
           <div className="info-row">
             <span className="info-label">Room</span>
-            <span className="info-value">{selected.roomNumber} — {selected.roomType}</span>
+            <span className="info-value">{selected.roomNumber} - {selected.roomType}</span>
           </div>
           {!conflict && <>
             <div className="info-row">
@@ -173,7 +173,7 @@ export default function CleaningRequestForm({ onSuccess }: Props) {
       {selected ? (
         <div style={{ border: '2px solid var(--c-primary)', borderRadius: 10, padding: '14px 16px', marginBottom: 20, display: 'flex', alignItems: 'center', justifyContent: 'space-between', background: 'var(--c-surface)' }}>
           <div>
-            <div style={{ fontWeight: 700, fontSize: 15 }}>Room {selected.roomNumber} — {selected.roomType}</div>
+            <div style={{ fontWeight: 700, fontSize: 15 }}>Room {selected.roomNumber} - {selected.roomType}</div>
             <div style={{ fontSize: 13, color: 'var(--c-muted)', marginTop: 2 }}>
               {fmt(selected.checkInDate)} → {fmt(selected.checkOutDate)} · {selected.numberOfGuests} guest{selected.numberOfGuests !== 1 ? 's' : ''}
             </div>

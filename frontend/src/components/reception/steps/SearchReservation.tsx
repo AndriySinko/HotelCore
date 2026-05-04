@@ -121,12 +121,12 @@ export default function SearchReservation({ onReservationSelected }: Props) {
                 onMouseLeave={e => (e.currentTarget.style.borderColor = 'var(--c-border)')}
               >
                 <div>
-                  <div style={{ fontWeight: 700, fontSize: 15 }}>{r.guestName || r.guestEmail || '—'}</div>
+                  <div style={{ fontWeight: 700, fontSize: 15 }}>{r.guestName || r.guestEmail || '-'}</div>
                   {r.guestEmail && (
                     <div style={{ fontSize: 13, color: 'var(--c-muted)', marginTop: 1 }}>{r.guestEmail}</div>
                   )}
                   <div style={{ fontSize: 13, color: 'var(--c-muted)', marginTop: 2 }}>
-                    Room {r.roomNumber || '—'} · {fmt(r.checkInDate)} → {fmt(r.checkOutDate)}
+                    Room {r.roomNumber || '-'} · {fmt(r.checkInDate)} → {fmt(r.checkOutDate)}
                   </div>
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexShrink: 0 }}>

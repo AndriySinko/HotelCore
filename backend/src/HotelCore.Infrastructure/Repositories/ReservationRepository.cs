@@ -139,6 +139,6 @@ public class ReservationRepository(ApplicationDbContext dbContext)
         
         
         dbContext.ChangeTracker.Clear();
-        await dbContext.Payments.AddAsync(payment, ct);
+        await dbContext.ReceptionPayments.AddAsync(payment, ct);
     }
 }

@@ -77,7 +77,7 @@ export default function DashboardPage() {
         <h1 className="page-title">
           Welcome{userName ? `, ${userName}` : ''}
         </h1>
-        <p className="page-subtitle">HotelCore HMS — select a module to get started</p>
+        <p className="page-subtitle">HotelCore HMS - select a module to get started</p>
       </div>
 
       <div className="dashboard-grid">

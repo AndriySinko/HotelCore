@@ -94,7 +94,7 @@ export default function ReservationSearch({ onSelect }: Props) {
                 onMouseLeave={e => (e.currentTarget.style.borderColor = 'var(--c-border)')}
               >
                 <div>
-                  <div style={{ fontWeight: 700, fontSize: 15 }}>{r.guestName || '—'}</div>
+                  <div style={{ fontWeight: 700, fontSize: 15 }}>{r.guestName || '-'}</div>
                   <div style={{ fontSize: 13, color: 'var(--c-muted)', marginTop: 2 }}>
                     Room {r.roomNumber} · {fmt(r.checkInDate)} → {fmt(r.checkOutDate)}
                   </div>

@@ -49,7 +49,4 @@ if (useLocalDatabase)
 
 
 
-// Pass the frontend URL to the API so it can redirect back after OAuth
-api.WithEnvironment("FrontendUrl", frontend.GetEndpoint("http"));*/
-
 builder.Build().Run();

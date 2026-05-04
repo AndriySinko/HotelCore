@@ -30,7 +30,7 @@ public class ResendEmailService(
         {
             from = fromEmail,
             to = new[] { toEmail },
-            subject = $"Reservation Confirmed — {qrCode}",
+            subject = $"Reservation Confirmed - {qrCode}",
             html = BuildHtml(guestName, qrCode, roomNumber, numberOfGuests, checkIn, checkOut, nights, totalPrice, reservationUrl)
         };
 
@@ -42,7 +42,7 @@ public class ResendEmailService(
             if (!response.IsSuccessStatusCode)
             {
                 var body = await response.Content.ReadAsStringAsync(ct);
-                logger.LogError("[Resend] Failed to send to {Email}: {Status} — {Body}", toEmail, response.StatusCode, body);
+                logger.LogError("[Resend] Failed to send to {Email}: {Status} - {Body}", toEmail, response.StatusCode, body);
             }
             else
             {
