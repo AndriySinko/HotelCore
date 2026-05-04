@@ -1,4 +1,4 @@
-// main EF Core database context — all queries and writes go through here
+// main EF Core database context - all queries and writes go through here
 // extends IdentityDbContext so ASP.NET Identity tables (users, roles, claims) are included automatically
 // implements IUnitOfWork so the application layer can call SaveChangesAsync without a direct EF reference
 using Microsoft.AspNetCore.Identity;
@@ -9,34 +9,39 @@ using HotelCore.Domain.Common;
 using HotelCore.Domain.Entities.Cleaning;
 using HotelCore.Domain.Entities.Images;
 using HotelCore.Domain.Entities.Reception;
-using HotelCore.Domain.Entities.Restaurant;
 using HotelCore.Domain.Entities.StaffManagement;
 using HotelCore.Domain.Entities.Users;
+using HotelCore.Domain.Entities.Users.Restaurant;
+using ReceptionPayment = HotelCore.Domain.Entities.Reception.Payment;
+using RestaurantPayment = HotelCore.Domain.Entities.Users.Restaurant.Payment;
 
 namespace HotelCore.Infrastructure.Persistence;
 
-public class ApplicationDbContext : IdentityDbContext<User, IdentityRole<Guid>, Guid>, IUnitOfWork
+public class ApplicationDbContext : IdentityDbContext<User, IdentityRole<Guid>, Guid>, IUnitOfWork, IApplicationDbContext
 {
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
         : base(options)
     {
     }
 
-    // reception module tables
+    // Restaurant
     public DbSet<Guest> Guests => Set<Guest>();
+    public DbSet<MyImage> Images => Set<MyImage>();
+    public DbSet<ProductCategory> ProductCategories => Set<ProductCategory>();
+    public DbSet<Product> Products => Set<Product>();
+    public DbSet<Order> Orders => Set<Order>();
+    public DbSet<OrderItem> OrderItems => Set<OrderItem>();
+    public DbSet<RestaurantPayment> Payments => Set<RestaurantPayment>();
+
+    // Reception
     public DbSet<Reservation> Reservations => Set<Reservation>();
     public DbSet<Room> Rooms => Set<Room>();
-    public DbSet<Payment> Payments => Set<Payment>();
+    public DbSet<ReceptionPayment> ReceptionPayments => Set<ReceptionPayment>();
 
-    // cleaning module table
+    // Cleaning
     public DbSet<CleaningTask> CleaningTasks => Set<CleaningTask>();
 
-    // restaurant module tables — owned by Person B
-    public DbSet<FoodOrder> FoodOrders => Set<FoodOrder>();
-    public DbSet<OrderItem> OrderItems => Set<OrderItem>();
-    public DbSet<MenuItem> MenuItems => Set<MenuItem>();
-
-    // staff management tables
+    // Staff management
     public DbSet<StaffMember> StaffMembers => Set<StaffMember>();
     public DbSet<WorkSchedule> WorkSchedules => Set<WorkSchedule>();
     public DbSet<Shift> Shifts => Set<Shift>();
@@ -50,9 +55,9 @@ public class ApplicationDbContext : IdentityDbContext<User, IdentityRole<Guid>, 
     }
 
     public void MarkUnchanged<T>(T entity) where T : class
-        => Entry(entity).State = Microsoft.EntityFrameworkCore.EntityState.Unchanged;
+        => Entry(entity).State = EntityState.Unchanged;
 
-    // soft delete — instead of removing the row, we set IsDeleted = true and record the timestamp
+    // soft delete - instead of removing the row, we set IsDeleted = true and record the timestamp
     // this means deleted records are still in the database and can be recovered if needed
     private void HandleSoftDelete()
     {

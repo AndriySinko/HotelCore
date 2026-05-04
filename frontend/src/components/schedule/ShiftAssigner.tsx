@@ -55,7 +55,7 @@ export default function ShiftAssigner({ scheduleId, onAssigned }: Props) {
             <select value={staffMemberId} onChange={(e) => setStaffMemberId(e.target.value)} required>
               <option value="">Select employee…</option>
               {employees.map((emp) => (
-                <option key={emp.id} value={emp.id}>{emp.userName} — {emp.position}</option>
+                <option key={emp.id} value={emp.id}>{emp.userName} - {emp.position}</option>
               ))}
             </select>
           </div>

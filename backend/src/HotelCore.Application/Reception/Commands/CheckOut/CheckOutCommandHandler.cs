@@ -1,4 +1,4 @@
-// handles the check-out flow — validates the reservation is checked in, updates room status, returns payment summary
+// handles the check-out flow - validates the reservation is checked in, updates room status, returns payment summary
 using MediatR;
 using HotelCore.Application.Common.Interfaces;
 using HotelCore.Application.Common.Interfaces.Reception;
@@ -31,7 +31,7 @@ public class CheckOutCommandHandler(
         await unitOfWork.SaveChangesAsync(ct);
 
         await reservationRepo.SetStatusAsync(reservation.Id, ReservationStatus.CheckedOut, ct);
-        // room goes to cleaning queue automatically on checkout — staff will see it in the cleaning module
+        // room goes to cleaning queue automatically on checkout - staff will see it in the cleaning module
         await roomRepo.SetStatusAsync(room.Id, RoomStatus.UnderCleaning, ct);
 
         var guestName = reservation.Guest?.GetFullName() ?? "Guest";

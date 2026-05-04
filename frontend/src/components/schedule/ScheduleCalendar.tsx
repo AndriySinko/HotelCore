@@ -48,7 +48,7 @@ export default function ScheduleCalendar({ schedule, weekOffset = 0 }: Props) {
           return (
             <div key={i} className="schedule-day-cell">
               {dayShifts.length === 0 ? (
-                <span style={{ fontSize: 11, color: 'var(--c-muted)' }}>—</span>
+                <span style={{ fontSize: 11, color: 'var(--c-muted)' }}>-</span>
               ) : (
                 dayShifts.map((shift) => (
                   <div

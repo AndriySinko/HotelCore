@@ -43,16 +43,15 @@ builder.Services.ConfigureAuthentication(builder.Configuration);
 // needed so controllers can read the current user from the HTTP context
 builder.Services.AddHttpContextAccessor();
 
-// allow requests from the React frontend running on a different port in development
-builder.Services.AddCors(options =>
-{
-    options.AddDefaultPolicy(policy =>
-    {
-        policy.AllowAnyOrigin()
-              .AllowAnyMethod()
-              .AllowAnyHeader();
-    });
-});
+//builder.Services.AddCors(options =>
+//{
+//    options.AddDefaultPolicy(policy =>
+//    {
+//        policy.AllowAnyOrigin()
+//              .AllowAnyMethod()
+//              .AllowAnyHeader();
+//    });
+//});
 
 var app = builder.Build();
 
@@ -62,10 +61,10 @@ app.MapDefaultEndpoints();
 app.UseOpenApi();
 
 app.UseExceptionHandler();
-app.UseHttpsRedirection();
-app.UseStaticFiles();
+if (!app.Environment.IsDevelopment())
+    app.UseHttpsRedirection();
 
-app.UseCors();
+//app.UseCors();
 
 app.UseAuthentication();
 app.UseAuthorization();
@@ -87,5 +86,7 @@ await app.SeedAdminUserAsync();
 await app.SeedTestUsersAsync();
 await app.SeedCleaningWorkersAsync();
 await app.SeedRoomsAsync();
+await app.SeedRestaurantDataAsync();
+await app.SeedDemoReservationAsync();
 
 app.Run();

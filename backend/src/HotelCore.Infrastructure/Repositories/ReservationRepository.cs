@@ -146,6 +146,6 @@ public class ReservationRepository(ApplicationDbContext dbContext)
     {
         // clear tracker first to avoid duplicate key conflicts when EF tries to re-attach related entities
         dbContext.ChangeTracker.Clear();
-        await dbContext.Payments.AddAsync(payment, ct);
+        await dbContext.ReceptionPayments.AddAsync(payment, ct);
     }
 }

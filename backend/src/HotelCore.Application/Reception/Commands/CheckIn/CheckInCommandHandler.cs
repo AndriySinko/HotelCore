@@ -8,14 +8,6 @@ using HotelCore.Domain.Exceptions;
 namespace HotelCore.Application.Reception.Commands.CheckIn;
 
 
-
-
-
-
-
-
-
-
 public class CheckInCommandHandler(
     IReservationRepository reservationRepo,
     IRoomRepository roomRepo,
@@ -28,7 +20,7 @@ public class CheckInCommandHandler(
         var reservation = await reservationRepo.GetByIdWithDetailsAsync(command.ReservationId, ct)
             ?? throw new NotFoundException(nameof(Reservation), command.ReservationId);
 
-        // identity check is optional — walk-in guests may not have a profile yet
+        // identity check is optional - walk-in guests may not have a profile yet
         var guest = await guestRepo.GetByIdNoTrackingAsync(reservation.GuestId, ct);
         if (guest != null)
         {
@@ -64,7 +56,7 @@ public class CheckInCommandHandler(
             var alternatives = await roomRepo.GetAlternativeRoomsAsync(room.RoomType, reservation.CheckInDate, ct);
 
             if (alternatives.Count == 0)
-                throw new ConflictException("No rooms available — original room is not ready and no alternatives exist");
+                throw new ConflictException("No rooms available - original room is not ready and no alternatives exist");
 
             if (command.AlternativeRoomId is null)
                 throw new ConflictException("Assigned room is not ready. Please select an alternative room.");

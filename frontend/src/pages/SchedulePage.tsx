@@ -275,7 +275,7 @@ export default function SchedulePage() {
             <h2 className="step-title">📅 Create Work Schedule</h2>
             <p className="body-text">Choose the start and end dates for the scheduling period.</p>
             <div className="form-grid" style={{ marginTop: 16 }}>
-              <p className="section-subtitle">Step 1 — Select Scheduling Period</p>
+              <p className="section-subtitle">Step 1 - Select Scheduling Period</p>
               <div className="form-row">
                 <div className="form-field">
                   <label>Start Date</label>
@@ -357,7 +357,7 @@ export default function SchedulePage() {
                                     const dayShift = empShifts.find(sh => sh.date.split('T')[0] === date);
                                     return (
                                       <td key={date} style={{ padding: '4px', border: '1px solid var(--c-border)', textAlign: 'center', background: dayShift ? '#f0fdf4' : 'var(--c-surface)' }}>
-                                        {dayShift ? <span style={{ fontSize: 11, fontWeight: 600 }}>{dayShift.shiftType.slice(0, 3)}</span> : <span style={{ color: 'var(--c-muted)', fontSize: 10 }}>—</span>}
+                                        {dayShift ? <span style={{ fontSize: 11, fontWeight: 600 }}>{dayShift.shiftType.slice(0, 3)}</span> : <span style={{ color: 'var(--c-muted)', fontSize: 10 }}>-</span>}
                                       </td>
                                     );
                                   })}
@@ -462,7 +462,7 @@ export default function SchedulePage() {
 
           {selectedCell && (
             <div className="alert" style={{ background: 'var(--c-primary-soft, #eff6ff)', border: '1px solid var(--c-primary)', borderRadius: 6, marginBottom: 12, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <span style={{ fontSize: 13 }}>📌 <strong>{selectedCell.day}</strong> — {SHIFTS.find(s => s.name === selectedCell.shift)?.time}</span>
+              <span style={{ fontSize: 13 }}>📌 <strong>{selectedCell.day}</strong> - {SHIFTS.find(s => s.name === selectedCell.shift)?.time}</span>
               <button className="btn btn-ghost btn-sm" onClick={() => setSelectedCell(null)}>Cancel</button>
             </div>
           )}
