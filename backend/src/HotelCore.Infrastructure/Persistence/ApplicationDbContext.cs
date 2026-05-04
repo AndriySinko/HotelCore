@@ -1,3 +1,6 @@
+// main EF Core database context - all queries and writes go through here
+// extends IdentityDbContext so ASP.NET Identity tables (users, roles, claims) are included automatically
+// implements IUnitOfWork so the application layer can call SaveChangesAsync without a direct EF reference
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -46,6 +49,7 @@ public class ApplicationDbContext : IdentityDbContext<User, IdentityRole<Guid>, 
 
     public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
     {
+        // intercept any delete operations and convert them to soft deletes
         HandleSoftDelete();
         return base.SaveChangesAsync(cancellationToken);
     }
@@ -53,6 +57,8 @@ public class ApplicationDbContext : IdentityDbContext<User, IdentityRole<Guid>, 
     public void MarkUnchanged<T>(T entity) where T : class
         => Entry(entity).State = EntityState.Unchanged;
 
+    // soft delete - instead of removing the row, we set IsDeleted = true and record the timestamp
+    // this means deleted records are still in the database and can be recovered if needed
     private void HandleSoftDelete()
     {
         var entries = ChangeTracker
@@ -71,6 +77,8 @@ public class ApplicationDbContext : IdentityDbContext<User, IdentityRole<Guid>, 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
+        // automatically picks up all IEntityTypeConfiguration classes from this assembly
+        // each module has its own configuration files in Persistence/Configurations/
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);
     }
 }

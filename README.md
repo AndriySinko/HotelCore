@@ -2,15 +2,6 @@
 
 Hotel Management System built with .NET 10 and React + TypeScript.
 
-## Modules
-
-| Module | Owner | Description |
-|--------|-------|-------------|
-| Reception | Person A | Check-In / Check-Out wizard, walk-in reservations |
-| Cleaning | Person C | Task requests, queue management, supervisor verification |
-| Staff Management | Person D | Work schedules, shift assignment, shift change requests |
-| Restaurant | Person B | Food orders, menu management *(independent module)* |
-
 ## Tech Stack
 
 **Backend**

@@ -1,4 +1,5 @@
-// This file contains code for CreateScheduleCommandHandler.
+// creates a new work schedule for a given week period
+// the schedule starts in Draft status so the manager can assign shifts before publishing
 using MediatR;
 using HotelCore.Application.Common.Interfaces;
 using HotelCore.Application.Common.Interfaces.StaffManagement;
@@ -14,7 +15,7 @@ public class CreateScheduleCommandHandler(
 {
     public async Task<Guid> Handle(CreateScheduleCommand command, CancellationToken ct)
     {
-        
+        // prevent creating two schedules for the same period — would cause confusion when publishing
         var existing = await scheduleRepo.GetByPeriodAsync(command.PeriodStart, command.PeriodEnd, ct);
         if (existing is not null)
             throw new ConflictException("A schedule already exists for this period");
@@ -24,6 +25,7 @@ public class CreateScheduleCommandHandler(
             PeriodStart = command.PeriodStart,
             PeriodEnd = command.PeriodEnd,
             CreatedByUserId = command.CreatedByUserId
+            // Status defaults to Draft — shifts are added separately via AssignShiftCommand
         };
 
         await scheduleRepo.AddAsync(schedule, ct);

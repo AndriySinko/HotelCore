@@ -1,3 +1,6 @@
+// schedule management page — managers build and publish weekly schedules, staff see their own shifts
+// the grid shows 3 shift slots (Morning / Afternoon / Night) × 7 days
+// managers click a cell to select it, then click an employee from the sidebar to assign them
 import React, { useState, useEffect } from 'react';
 import useAuthStore from '../stores/authStore';
 import MyShifts from '../components/schedule/MyShifts';
@@ -16,6 +19,7 @@ import type { EmployeeDto, ScheduleDto, ShiftType } from '../types';
 
 const MANAGER_ROLES = ['HotelManager', 'Administrator'];
 
+// the three standard shift slots — times match what the backend expects when creating shifts
 const SHIFTS = [
   { name: 'Morning',   time: '6:00–14:00',  shiftType: 'Morning' as ShiftType, start: '06:00', end: '14:00' },
   { name: 'Afternoon', time: '14:00–22:00', shiftType: 'Afternoon' as ShiftType, start: '14:00', end: '22:00' },
@@ -24,6 +28,7 @@ const SHIFTS = [
 
 const DAYS = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
 
+// generates ISO date strings for all 7 days of the week starting from the given date
 function getWeekDates(start: string): string[] {
   const base = new Date(start);
   return DAYS.map((_, i) => {
@@ -170,14 +175,19 @@ export default function SchedulePage() {
     validateGrid(newGrid);
   }
 
+  // checks the grid for contract hour violations — runs every time an assignment changes
+  // errors block publishing, warnings are shown but dont prevent it
   function validateGrid(g: Record<string, CellAssignment[]>) {
     const empHours: Record<string, number> = {};
+    // each shift slot counts as 8 hours (fixed — Morning/Afternoon/Night are all 8h)
     Object.values(g).forEach(arr => arr.forEach(a => { empHours[a.employeeId] = (empHours[a.employeeId] ?? 0) + 8; }));
     const errs: string[] = [];
     const warns: string[] = [];
     Object.entries(empHours).forEach(([id, h]) => {
       const emp = employees.find(e => e.id === id);
+      // hard limit: 40h/week for everyone regardless of contract
       if (h > 40) errs.push(`${emp?.userName ?? id} exceeds 40 h/week (${h}h assigned)`);
+      // soft warning: assigned more than their personal contract allows
       else if (emp && h > emp.contractHoursPerWeek) warns.push(`${emp.userName} assigned ${h}h (contract: ${emp.contractHoursPerWeek}h/week)`);
     });
     setConflicts(errs);
@@ -198,6 +208,7 @@ export default function SchedulePage() {
     if (!scheduleId) return;
     setActionError(null);
     try {
+      // clear existing shifts first so re-publishing a draft doesn't create duplicates
       await clearShifts(scheduleId);
       for (const assignments of Object.values(grid)) {
         for (const a of assignments) {
@@ -222,7 +233,7 @@ export default function SchedulePage() {
     }
   }
 
-  
+  // staff view — shows only the shifts assigned to this user from the latest published schedule
   if (!isManager) {
     return (
       <div>
@@ -239,7 +250,7 @@ export default function SchedulePage() {
     );
   }
 
-  
+  // manager view step 1 — pick the week period or browse existing schedules
   if (step === 'period') {
     const tabStyle = (active: boolean): React.CSSProperties => ({
       padding: '8px 20px', borderRadius: 6, border: 'none', cursor: 'pointer', fontWeight: 600, fontSize: 14,
