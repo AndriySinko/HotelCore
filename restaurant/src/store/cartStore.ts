@@ -16,6 +16,7 @@ interface CartState {
 export const useCartStore = create<CartState>((set, get) => ({
   items: [],
 
+  // Increment quantity if the item is already in the cart; add a new entry otherwise.
   addItem: (menuItem, note = '') => {
     const existing = get().items.find((i) => i.menuItem.id === menuItem.id);
     if (existing) {
@@ -34,6 +35,8 @@ export const useCartStore = create<CartState>((set, get) => ({
   },
 
   updateQuantity: (menuItemId, quantity) => {
+    // Treat zero or negative as a remove so the UI swipe-to-delete and stepper
+    // can both call the same action without branching.
     if (quantity <= 0) {
       get().removeItem(menuItemId);
       return;

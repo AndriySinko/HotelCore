@@ -13,12 +13,15 @@ interface CreateOrderPayload {
   paymentMethod: 'RoomBill' | 'OnlinePayment';
 }
 
+// Backend enum serialises as PascalCase strings; frontend uses snake_case for readability.
 function toBackendPaymentMethod(method: PaymentMethod): 'RoomBill' | 'OnlinePayment' {
   return method === 'room_bill' ? 'RoomBill' : 'OnlinePayment';
 }
 
 export const orderApi = {
   async createOrder(cartItems: CartItem[], paymentMethod: PaymentMethod): Promise<Order> {
+    // Simulate payment processing delay for online payments so the UI
+    // has time to show a "processing" state. Remove once a real gateway is wired up.
     if (paymentMethod === 'online_payment') {
       await new Promise((r) => setTimeout(r, 1000));
     }

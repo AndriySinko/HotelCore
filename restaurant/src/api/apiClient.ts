@@ -11,9 +11,10 @@ export const apiClient = axios.create({
   timeout: 15000,
 });
 
-// Attach JWT from auth store on every request
+// Attach JWT from auth store on every request.
+// require() inside the interceptor breaks the circular dependency:
+// apiClient → authStore → authApi → apiClient.
 apiClient.interceptors.request.use((config) => {
-  // Lazy import to avoid circular deps
   const { useAuthStore } = require('../store/authStore');
   const token: string | null = useAuthStore.getState().token;
   if (token) {
@@ -25,7 +26,9 @@ apiClient.interceptors.request.use((config) => {
   return config;
 });
 
-// Unwrap ApiResult<T> envelope — return data or throw on status: false
+// Unwrap the server's ApiResult<T> envelope so callers receive T directly.
+// { status: true, data: T } → resolves with T
+// { status: false, error } → rejects with Error(message), same as a network failure
 apiClient.interceptors.response.use(
   (response) => {
     console.log(`[API] <-- ${response.status} ${response.config.url}`);
@@ -47,6 +50,7 @@ apiClient.interceptors.response.use(
     console.log('[API] !! Response status:', error?.response?.status);
     console.log('[API] !! Response data:', JSON.stringify(error?.response?.data));
     console.log('[API] !! Request URL:', error?.config?.baseURL + error?.config?.url);
+    // Prefer the server's error message over axios's generic one.
     const message =
       error?.response?.data?.error?.message ??
       error?.response?.data?.title ??

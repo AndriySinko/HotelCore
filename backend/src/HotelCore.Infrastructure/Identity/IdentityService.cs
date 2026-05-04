@@ -102,11 +102,19 @@ public class IdentityService(
         return await GenerateAuthResultAsync(user, cancellationToken);
     }
 
+    /// <summary>
+    /// Authenticates a guest from the data encoded in a scanned QR code.
+    /// Accepts either a full reservation URL (http://…/reservation/HC-XXXXX)
+    /// or a bare reservation code — both are handled by <see cref="ExtractReservationCode"/>.
+    /// The magic token "demo" activates a fixed dev account without a real reservation.
+    /// </summary>
     public async Task<QrLoginResult> QrLoginAsync(string qrToken, CancellationToken cancellationToken = default)
     {
         if (string.IsNullOrWhiteSpace(qrToken))
             return QrLoginResult.Failure("Invalid QR code.");
 
+        // Dev shortcut — keeps the "Continue as Demo Guest" button working
+        // without needing a real reservation in the database.
         if (qrToken.Equals("demo", StringComparison.OrdinalIgnoreCase))
             return await HandleDemoLoginAsync();
 
@@ -120,6 +128,8 @@ public class IdentityService(
         if (reservation is null)
             return QrLoginResult.Failure("QR code not recognised.");
 
+        // A reservation without a Guest is a data integrity issue — surface it clearly
+        // rather than letting it produce a confusing NullReferenceException downstream.
         if (reservation.Guest is null)
             return QrLoginResult.Failure("No guest linked to this reservation.");
 
@@ -132,7 +142,7 @@ public class IdentityService(
             reservation.Room?.RoomNumber);
     }
 
-    // Extracts "HC-C7EAHC" from either "http://localhost:3000/reservation/HC-C7EAHC" or a bare code.
+    // Handles both "http://localhost:3000/reservation/HC-C7EAHC" and bare "HC-C7EAHC".
     private static string ExtractReservationCode(string qrToken)
     {
         if (Uri.TryCreate(qrToken, UriKind.Absolute, out var uri))
@@ -141,6 +151,9 @@ public class IdentityService(
         return qrToken.Trim();
     }
 
+    // Creates the demo guest on first use if it doesn't already exist.
+    // This is intentionally lazy rather than seeded so it works in any environment
+    // without depending on seed order.
     private async Task<QrLoginResult> HandleDemoLoginAsync()
     {
         var user = await userManager.FindByEmailAsync(DemoGuestEmail);

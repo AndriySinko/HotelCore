@@ -16,6 +16,7 @@ public class GetProductsListHandler(IApplicationDbContext db)
             .Include(p => p.Image)
             .AsQueryable();
 
+        // CategoryId is optional — omitting it returns the full menu.
         if (request.CategoryId.HasValue)
             query = query.Where(p => p.ProductCategoryId == request.CategoryId.Value);
 

@@ -22,6 +22,7 @@ public class CancelOrderHandler(IApplicationDbContext db, IUnitOfWork unitOfWork
         if (order is null)
             throw new NotFoundException("Order", request.OrderId);
 
+        // Once the kitchen starts preparing, cancellation is no longer practical.
         if (order.Status != OrderStatus.Received)
             throw new BadRequestException("Only orders with status 'received' can be cancelled.");
 

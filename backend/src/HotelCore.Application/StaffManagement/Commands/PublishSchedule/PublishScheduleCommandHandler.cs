@@ -27,7 +27,7 @@ public class PublishScheduleCommandHandler(
         {
             var dates = string.Join(", ", uncoveredShifts.Select(s => s.Date.ToString("yyyy-MM-dd")).Distinct());
             throw new BadRequestException(
-                $"Cannot publish schedule — {uncoveredShifts.Count} uncovered shift(s) remain on: {dates}");
+                $"Cannot publish schedule - {uncoveredShifts.Count} uncovered shift(s) remain on: {dates}");
         }
 
         schedule.SetStatus(ScheduleStatus.Published);

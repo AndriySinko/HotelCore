@@ -10,6 +10,7 @@ public class OrderConfiguration : IEntityTypeConfiguration<Order>
     {
         builder.HasQueryFilter(x => !x.IsDeleted);
 
+        // Cascade: line items and payment are meaningless without the parent order.
         builder.HasMany(x => x.OrderItems)
             .WithOne(x => x.Order)
             .HasForeignKey(x => x.OrderId)

@@ -38,6 +38,7 @@ export const menuApi = {
     }));
   },
 
+  // TODO: wire up to a real endpoint (e.g. operating hours config) when available.
   isRestaurantOpen(): Promise<boolean> {
     return Promise.resolve(true);
   },

@@ -38,12 +38,12 @@ export const Colors = {
   tabBarActive: '#7C3AED',
   tabBarInactive: '#9A8AB9',
 
-  // Order status — vivid, distinct colours
+  // Order status - vivid, distinct colours
   statusReceived: '#A855F7',
   statusPreparing: '#7C3AED',
   statusOnTheWay: '#9333EA',
   statusDelivered: '#6D28D9',
-  statusCancelled: '#EF4444',  // red
+  statusCancelled: '#EF4444',
 
   unavailable: '#C9BEE0',
 

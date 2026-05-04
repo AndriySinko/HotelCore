@@ -13,6 +13,8 @@ public class OrderItemConfiguration : IEntityTypeConfiguration<OrderItem>
         builder.Property(x => x.PricePerUnit)
             .HasPrecision(18, 2);
 
+        // Restrict: products referenced by past orders can't be hard-deleted —
+        // historical records (receipts, totals) depend on them. Soft-delete instead.
         builder.HasOne(x => x.Product)
             .WithMany()
             .HasForeignKey(x => x.ProductId)

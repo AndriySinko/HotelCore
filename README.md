@@ -69,7 +69,7 @@ The Vite dev server proxies `/api` requests to `http://localhost:5000` so no COR
 
 | File | Variable | Default | Purpose |
 |------|----------|---------|---------|
-| `frontend/.env.local` | `VITE_API_URL` | *(empty — uses proxy)* | Override API base URL |
+| `frontend/.env.local` | `VITE_API_URL` | *(empty - uses proxy)* | Override API base URL |
 | `backend/src/HotelCore.Api/appsettings.Development.json` | `Jwt:Secret` | *(auto-generated)* | JWT signing key |
 
 ## Running Tests

@@ -8,7 +8,7 @@ namespace HotelCore.Domain.Enums
     {
         InProgress,
         Received,
-        Preparaing,
+        Preparaing,  // typo — fixing it requires a migration to update stored enum values
         OnTheWay,
         Delivered,
         Canceled

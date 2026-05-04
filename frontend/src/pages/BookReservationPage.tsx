@@ -279,7 +279,7 @@ export default function BookReservationPage() {
                     <span>{nights} night{nights !== 1 ? 's' : ''}</span>
                   </div>
                   <div className="payment-line">
-                    <span>{selectedTypeInfo.label} room — {selectedTypeInfo.description}</span>
+                    <span>{selectedTypeInfo.label} room - {selectedTypeInfo.description}</span>
                   </div>
                   <div className="payment-line">
                     <span>Rate per night</span>

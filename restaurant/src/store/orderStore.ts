@@ -6,7 +6,7 @@ import { orderApi } from '../api/orderApi';
 interface OrderState {
   activeOrder: Order | null;
   orderHistory: Order[];
-  ordersById: Record<string, Order>;
+  ordersById: Record<string, Order>;  // keyed by id for O(1) lookup during status polling
   isLoading: boolean;
   error: string | null;
   placeOrder: (cartItems: CartItem[], paymentMethod: PaymentMethod) => Promise<Order>;

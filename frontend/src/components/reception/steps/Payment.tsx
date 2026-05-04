@@ -42,7 +42,7 @@ export default function Payment({ reservation, selectedRoom, onPaymentComplete, 
           <span>{reservation.guest.firstName} {reservation.guest.lastName}</span>
         </div>
         <div className="payment-line">
-          <span>Room {selectedRoom.number} — {selectedRoom.roomType.name}</span>
+          <span>Room {selectedRoom.number} - {selectedRoom.roomType.name}</span>
         </div>
         <div className="payment-line">
           <span>{new Date(reservation.checkInDate).toLocaleDateString()} → {new Date(reservation.checkOutDate).toLocaleDateString()}</span>

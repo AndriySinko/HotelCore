@@ -10,6 +10,7 @@ public class PaymentConfiguration : IEntityTypeConfiguration<Payment>
     {
         builder.HasQueryFilter(x => !x.IsDeleted);
 
+        // Unique index enforces the 1:1 at DB level — HasOne/WithOne alone doesn't prevent a second row.
         builder.HasIndex(x => x.OrderId)
             .IsUnique();
     }

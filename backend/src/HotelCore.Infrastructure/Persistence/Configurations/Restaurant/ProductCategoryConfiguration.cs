@@ -14,6 +14,8 @@ public class ProductCategoryConfiguration : IEntityTypeConfiguration<ProductCate
             .IsRequired()
             .HasMaxLength(200);
 
+        // Restrict: categories with existing products can't be hard-deleted.
+        // Archive (soft-delete) the category instead, which also hides its products via the query filter.
         builder.HasMany(x => x.Products)
             .WithOne(x => x.Category)
             .HasForeignKey(x => x.ProductCategoryId)

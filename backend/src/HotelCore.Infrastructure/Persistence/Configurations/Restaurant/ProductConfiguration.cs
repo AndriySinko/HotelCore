@@ -19,11 +19,13 @@ public class ProductConfiguration : IEntityTypeConfiguration<Product>
             .HasMaxLength(2000);
 
         builder.Property(x => x.Price)
-            .HasPrecision(18, 2);
+            .HasPrecision(18, 2);  // standard for money — avoids floating-point rounding
 
         builder.Property(x => x.IsAvailable)
             .HasDefaultValue(true);
 
+        // Restrict: don't cascade-delete an image when the product is soft-deleted.
+        // Image cleanup (R2 storage + DB row) goes through the storage service separately.
         builder.HasOne(x => x.Image)
             .WithOne(x => x.Product)
             .HasForeignKey<Product>(x => x.ImageId)

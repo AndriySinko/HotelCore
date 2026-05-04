@@ -1,3 +1,4 @@
+// Values match the snake_case strings returned by the backend's MapStatus switch.
 export type OrderStatus =
   | 'received'
   | 'preparing'
@@ -6,6 +7,7 @@ export type OrderStatus =
   | 'cancelled'
   | 'in_progress';
 
+// Values match the snake_case strings returned by MapPaymentMethod on the backend.
 export type PaymentMethod = 'room_bill' | 'online_payment';
 
 export const ORDER_STATUS_LABEL: Record<OrderStatus, string> = {

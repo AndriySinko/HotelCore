@@ -32,7 +32,7 @@ public class AssignShiftCommandHandler(
         if (ShiftConflictService.HasConflict(command.Date, command.StartTime, command.EndTime, existingShifts))
             throw new ConflictException($"{staff.Position} already has a shift that overlaps with {command.Date:yyyy-MM-dd} {command.StartTime}–{command.EndTime}");
 
-        // weekly hours check — dont exceed contract limit
+        // weekly hours check - dont exceed contract limit
         var weekStart = command.Date.AddDays(-(int)command.Date.DayOfWeek + (int)DayOfWeek.Monday);
         var weekEnd = weekStart.AddDays(7);
         var weeklyShifts = await shiftRepo.GetByStaffAsync(command.StaffMemberId, weekStart, weekEnd, ct);

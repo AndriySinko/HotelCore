@@ -31,7 +31,7 @@ public class VerifyCleaningCommandHandler(
 
         if (cleaningTask.Status != CleaningTaskStatus.Completed)
             throw new BadRequestException(
-                $"Cannot verify a task with status '{cleaningTask.Status}' — task must be Completed first");
+                $"Cannot verify a task with status '{cleaningTask.Status}' - task must be Completed first");
 
         cleaningTask.SetStatus(CleaningTaskStatus.Verified);
         cleaningTaskRepository.Update(cleaningTask);
